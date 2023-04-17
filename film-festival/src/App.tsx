@@ -1,20 +1,24 @@
 import React from 'react';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
-import Users from "./Pages/Users";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import "./resources/scss/main.css";
+import Layout from "./Pages/Layout";
+import Home from "./Pages/Home";
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Hello world!</h1>
-        <Router>
-            <div>
-                <Routes>
-                    <Route path="/users" element={<Users/>}/>
-                </Routes>
-            </div>
-        </Router>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Router>
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Layout/>}>
+                            <Route path="*" element={<Home/>}/>
+                            <Route path="" element={<Home/>}/>
+                        </Route>
+                    </Routes>
+                </div>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
