@@ -1,9 +1,9 @@
 import {Outlet} from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 
 const Layout = () => {
     return (
-        <body>
+        <body className="vh-100 bg-dark">
         <Navbar/>
         <Outlet/>
         </body>

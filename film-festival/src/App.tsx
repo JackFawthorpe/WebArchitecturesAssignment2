@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import "./resources/scss/main.css";
+import 'bootstrap/js/dist/modal';
 import Layout from "./Pages/Layout";
 import Home from "./Pages/Home";
 
