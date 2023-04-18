@@ -1,7 +1,7 @@
 import {AuthModal} from "./AuthModal";
 import {authStore} from "../../store";
 
-export const AuthBar = () => {
+export const RightNav = () => {
 
     const currentUser = authStore(state => state.currentUser);
 

@@ -1,4 +1,4 @@
-import {AuthBar} from "./AuthBar";
+import {RightNav} from "./RightNav";
 
 const Navbar = () => {
     return (
@@ -13,7 +13,7 @@ const Navbar = () => {
                     <button className="btn btn-secondary" type="submit">Search</button>
                 </form>
             </div>
-            <AuthBar/>
+            <RightNav/>
         </nav>
     )
 }
