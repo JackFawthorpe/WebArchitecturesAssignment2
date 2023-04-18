@@ -23,7 +23,7 @@ export const AuthModal = () => {
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Login</h5>
+                        <h3 className="modal-title">Not IMDB</h3>
                     </div>
                     <div className="modal-body">
                         <div className="row">
@@ -31,10 +31,9 @@ export const AuthModal = () => {
                                 <span className="mb-5">
                                     {mode === "Register" ? "Already have an account?" : "Don't have an account?"}
                                 </span>
-
                                 <button className="btn btn-sm btn-primary"
                                         onClick={toggleBody}>
-                                    {mode}
+                                    {mode === "Register" ? "Login" : "Register"}
                                 </button>
                             </div>
                             <div className="col">
