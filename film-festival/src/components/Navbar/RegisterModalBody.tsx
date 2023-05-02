@@ -1,4 +1,6 @@
 import {ChangeEvent, forwardRef, useImperativeHandle, useState} from "react";
+import {getBaseUrl} from "../../config/BaseUrl";
+import axios from "axios";
 
 
 interface FormDetails {
@@ -28,11 +30,26 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     }));
 
     const submitForm = () => {
-        console.log("Submitting Register form");
+        axios.post(getBaseUrl() + "/users/register", formDetails)
+            .then((response) => (console.log(response.data)))
+            .catch((err) => {
+                if (err.response) {
+                    handleBadRequest(err.response)
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log('Error', err.message);
+                }
+            })
+    }
+
+    const handleBadRequest = (err: any) => {
+        console.log(JSON.stringify(err));
     }
 
     const clearForm = () => {
         setFormDetails({email: "", password: "", firstName: "", lastName: "", profilePicFileName: ""})
+        setShowPassword(false);
     }
 
     const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
