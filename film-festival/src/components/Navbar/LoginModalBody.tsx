@@ -19,8 +19,11 @@ export const LoginModalBody = forwardRef((props, ref) => {
         clearForm
     }));
 
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
     const clearForm = () => {
         setFormDetails({email: "", password: ""})
+        setShowPassword(false);
     }
 
     const submitForm = () => {
@@ -113,9 +116,10 @@ export const LoginModalBody = forwardRef((props, ref) => {
             <div className="container">
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input className={`form-control ${!validEmail || showEmptyError ? "is-invalid" : ""}`}
-                           name="email"
-                           value={formDetails.email} onChange={onInputChange}/>
+                    <input
+                        className={`form-control ${!validEmail || (showEmptyError && formDetails.email.length === 0) ? "is-invalid" : ""}`}
+                        name="email"
+                        value={formDetails.email} onChange={onInputChange}/>
                     <div
                         className="invalid-feedback">{formDetails.email.length === 0 ? "Please enter an email" : "Please enter a valid email"}</div>
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.
@@ -123,10 +127,20 @@ export const LoginModalBody = forwardRef((props, ref) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className={`form-control ${showEmptyError ? "is-invalid" : ""}`}
-                           onChange={onInputChange} name="password"
-                           value={formDetails.password}/>
-                    <div className="invalid-feedback">Please enter a password</div>
+                    <div className="input-group has-validation">
+                        <input
+                            className={`form-control ${(showEmptyError && formDetails.password.length === 0) ? "is-invalid" : ""}`}
+                            onChange={onInputChange} name="password"
+                            value={formDetails.password}
+                            type={showPassword ? "" : "password"}/>
+                        <button type="button"
+                                onClick={() => {
+                                    setShowPassword(!showPassword)
+                                }}
+                                className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
+                        </button>
+                        <div className="invalid-feedback">Please enter a password</div>
+                    </div>
                 </div>
                 <div className="row">
                     {showBadCredentialsError &&

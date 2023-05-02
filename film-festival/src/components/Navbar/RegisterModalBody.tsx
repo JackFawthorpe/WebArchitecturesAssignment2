@@ -1,5 +1,6 @@
-import {ChangeEvent, forwardRef, useImperativeHandle, useState} from "react";
+import {ChangeEvent, forwardRef, useImperativeHandle, useMemo, useState} from "react";
 import {getBaseUrl} from "../../config/BaseUrl";
+import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
 
 
@@ -30,18 +31,33 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     }));
 
     const submitForm = () => {
-        axios.post(getBaseUrl() + "/users/register", formDetails)
-            .then((response) => (console.log(response.data)))
-            .catch((err) => {
-                if (err.response) {
-                    handleBadRequest(err.response)
-                } else if (err.request) {
-                    console.log(err.request);
-                } else {
-                    console.log('Error', err.message);
-                }
-            })
+        if (!hasEmptyRequiredFields || hasInvalidFields) {
+            axios.post(getBaseUrl() + "/users/register", formDetails)
+                .then((response) => (console.log(response.data)))
+                .catch((err) => {
+                    if (err.response) {
+                        handleBadRequest(err.response)
+                    } else if (err.request) {
+                        console.log(err.request);
+                    } else {
+                        console.log('Error', err.message);
+                    }
+                })
+        } else {
+
+        }
     }
+
+    const hasEmptyRequiredFields = useMemo<boolean>(() => {
+        return formDetails.email === ""
+            || formDetails.password === ""
+            || formDetails.firstName === ""
+            || formDetails.lastName === ""
+    }, [formDetails]);
+
+    const hasInvalidFields = useMemo<boolean>(() => {
+        return !patterns.email.test(formDetails.email) || formDetails.password.length < 6
+    }, [formDetails]);
 
     const handleBadRequest = (err: any) => {
         console.log(JSON.stringify(err));
