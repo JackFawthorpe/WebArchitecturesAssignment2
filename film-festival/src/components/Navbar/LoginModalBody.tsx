@@ -3,6 +3,8 @@ import {getBaseUrl} from "../../config/BaseUrl";
 import axios from "axios";
 import {patterns} from "../../config/RegexPatterns";
 
+// TODO: Add user to global state
+
 interface FormDetails {
     email: string,
     password: string

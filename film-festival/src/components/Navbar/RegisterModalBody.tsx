@@ -3,6 +3,9 @@ import {getBaseUrl} from "../../config/BaseUrl";
 import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
 
+// TODO: Add image handling
+// TODO: Add Back end error handling
+// TODO: Add user to global state
 
 interface FormDetails {
     email: string,
