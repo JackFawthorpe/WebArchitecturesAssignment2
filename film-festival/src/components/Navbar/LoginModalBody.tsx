@@ -130,7 +130,7 @@ export const LoginModalBody = forwardRef((props, ref) => {
                 </div>
                 <div className="row">
                     {showBadCredentialsError &&
-                        <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}\
+                        <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}
                     {showInternalServerError &&
                         <div className="alert alert-danger" role="alert">An error occured making your request, please
                             try again later</div>}
