@@ -11,6 +11,9 @@ interface FormDetails {
 
 export const RegisterModalBody = forwardRef((props, ref) => {
 
+    const [showPassword, setShowPassword] = useState(false);
+
+
     const [formDetails, setFormDetails] = useState<FormDetails>({
         email: "",
         password: "",
@@ -63,9 +66,18 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input className={`form-control`}
-                           name="password"
-                           value={formDetails.password} onChange={onInputChange}/>
+                    <div className="input-group">
+                        <input className={`form-control`}
+                               name="password"
+                               value={formDetails.password} onChange={onInputChange}
+                               type={showPassword ? "" : "password"}/>
+                        <button type="button"
+                                onClick={() => {
+                                    setShowPassword(!showPassword)
+                                }}
+                                className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
+                        </button>
+                    </div>
                     <div className="invalid-feedback"></div>
                 </div>
                 <div className="mb-3">
