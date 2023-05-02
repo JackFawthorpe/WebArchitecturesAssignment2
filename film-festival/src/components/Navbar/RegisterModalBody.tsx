@@ -15,7 +15,7 @@ interface FormDetails {
 export const RegisterModalBody = forwardRef((props, ref) => {
 
     const [showPassword, setShowPassword] = useState(false);
-
+    const [submittingForm, setSubmittingForm] = useState(false);
 
     const [formDetails, setFormDetails] = useState<FormDetails>({
         email: "",
@@ -32,23 +32,49 @@ export const RegisterModalBody = forwardRef((props, ref) => {
 
     const submitForm = () => {
         if (!hasEmptyRequiredFields && !hasInvalidFields) {
-            axios.post(getBaseUrl() + "/users/register", formDetails)
-                .then((response) => (console.log(response.data)))
-                .catch((err) => {
-                    if (err.response) {
-                        handleBadRequest(err.response)
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log('Error', err.message);
-                    }
-                })
-            return;
+            if (!submittingForm) {
+                setSubmittingForm(true);
+                axios.post(getBaseUrl() + "/users/register", formDetails)
+                    .then((response) => (handleSuccessfulRegister(response.data)))
+                    .catch((err) => {
+                        if (err.response) {
+                            handleBadRegisterRequest(err.response)
+                        } else if (err.request) {
+                            console.log(err.request);
+                        } else {
+                            console.log('Error', err.message);
+                        }
+                    })
+                return;
+            }
         }
         setShowEmptyFieldError(true);
     }
 
-    const handleBadRequest = (err: any) => {
+    const handleSuccessfulRegister = (data: { userId: number }) => {
+        axios.post(getBaseUrl() + "/users/login", formDetails)
+            .then((response) => (handleSuccessfulLogin(response.data)))
+            .catch((err) => {
+                if (err.response) {
+                    handleBadLoginRequest(err.response)
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log('Error', err.message);
+                }
+            })
+    }
+
+    const handleSuccessfulLogin = (data: { userId: number, token: String }) => {
+        console.log(data);
+    }
+
+    const handleBadRegisterRequest = (err: any) => {
+        console.log(JSON.stringify(err));
+        setSubmittingForm(false);
+    }
+
+    const handleBadLoginRequest = (err: any) => {
         console.log(JSON.stringify(err));
     }
 
@@ -121,7 +147,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input className={`form-control 
-                    ${patterns.email.test(formDetails.email) || (formDetails.email.length === 0 && showEmptyFieldError) ? 'is-invalid' : ''}`}
+                    ${(!patterns.email.test(formDetails.email) && formDetails.email.length !== 0) || (formDetails.email.length === 0 && showEmptyFieldError) ? 'is-invalid' : ''}`}
                            name="email"
                            value={formDetails.email} onChange={onInputChange}/>
                     <div className="invalid-feedback">
