@@ -1,4 +1,4 @@
-import {ChangeEvent, forwardRef, useImperativeHandle, useMemo, useState} from "react";
+import {ChangeEvent, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState} from "react";
 import {getBaseUrl} from "../../config/BaseUrl";
 import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
@@ -31,7 +31,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     }));
 
     const submitForm = () => {
-        if (!hasEmptyRequiredFields || hasInvalidFields) {
+        if (!hasEmptyRequiredFields && !hasInvalidFields) {
             axios.post(getBaseUrl() + "/users/register", formDetails)
                 .then((response) => (console.log(response.data)))
                 .catch((err) => {
@@ -43,21 +43,10 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                         console.log('Error', err.message);
                     }
                 })
-        } else {
-
+            return;
         }
+        setShowEmptyFieldError(true);
     }
-
-    const hasEmptyRequiredFields = useMemo<boolean>(() => {
-        return formDetails.email === ""
-            || formDetails.password === ""
-            || formDetails.firstName === ""
-            || formDetails.lastName === ""
-    }, [formDetails]);
-
-    const hasInvalidFields = useMemo<boolean>(() => {
-        return !patterns.email.test(formDetails.email) || formDetails.password.length < 6
-    }, [formDetails]);
 
     const handleBadRequest = (err: any) => {
         console.log(JSON.stringify(err));
@@ -68,6 +57,36 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         setShowPassword(false);
     }
 
+
+    const hasEmptyRequiredFields = useMemo<boolean>(() => {
+        return formDetails.email === ""
+            || formDetails.password === ""
+            || formDetails.firstName === ""
+            || formDetails.lastName === ""
+    }, [formDetails]);
+
+    const hasInvalidFields = useMemo<boolean>(() => {
+        return !patterns.email.test(formDetails.email)
+            || formDetails.password.length < 6
+            || formDetails.firstName.length > 64
+            || formDetails.lastName.length > 64
+    }, [formDetails]);
+
+    const [showEmptyFieldError, setShowEmptyFieldError] = useState(false);
+    const showEmptyTimerReference = useRef<any>(-1);
+
+    useEffect(() => {
+        if (showEmptyFieldError) {
+            showEmptyTimerReference.current = setTimeout(() => {
+                setShowEmptyFieldError(false);
+            }, 5000)
+
+            return () => {
+                clearTimeout(showEmptyTimerReference.current)
+            }
+        }
+    }, [showEmptyFieldError])
+
     const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFormDetails({...formDetails, [event.target.name]: event.target.value})
     }
@@ -77,30 +96,48 @@ export const RegisterModalBody = forwardRef((props, ref) => {
             <form noValidate className="">
                 <div className="mb-3">
                     <label htmlFor="firstName" className="form-label">First Name</label>
-                    <input className={`form-control`}
+                    <input className={`form-control 
+                    ${(formDetails.firstName.length === 0 && showEmptyFieldError) || formDetails.firstName.length > 64 ? "is-invalid" : ""}`}
                            name="firstName"
                            value={formDetails.firstName} onChange={onInputChange}/>
-                    <div className="invalid-feedback"></div>
+                    <div className="invalid-feedback">
+                        {(formDetails.firstName.length === 0 && showEmptyFieldError)
+                            ? "First name cannot be empty"
+                            : "First name cannot be longer than 64 characters long"}
+                    </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="lastName" className="form-label">Last Name</label>
-                    <input className={`form-control`}
+                    <input className={`form-control
+                    ${(formDetails.lastName.length === 0 && showEmptyFieldError) || formDetails.lastName.length > 64 ? "is-invalid" : ""}`}
                            name="lastName"
                            value={formDetails.lastName} onChange={onInputChange}/>
-                    <div className="invalid-feedback"></div>
+                    <div className="invalid-feedback">
+                        {(formDetails.lastName.length === 0 && showEmptyFieldError)
+                            ? "Last name cannot be emnpty"
+                            : "Last name cannot be longer than 64 characters"}
+                    </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input className={`form-control`}
+                    <input className={`form-control 
+                    ${patterns.email.test(formDetails.email) || (formDetails.email.length === 0 && showEmptyFieldError) ? 'is-invalid' : ''}`}
                            name="email"
                            value={formDetails.email} onChange={onInputChange}/>
-                    <div className="invalid-feedback"></div>
+                    <div className="invalid-feedback">
+                        {patterns.email.test(formDetails.email)
+                            ? "Please enter a valid email"
+                            : "Email cannot be empty"}
+                    </div>
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <div className="input-group">
-                        <input className={`form-control`}
+                    <div className="input-group has-validation">
+                        <input className={`form-control
+                        ${(formDetails.password.length === 0 && showEmptyFieldError)
+                        || (formDetails.password.length > 0 && formDetails.password.length < 6)
+                            ? "is-invalid" : ""}`}
                                name="password"
                                value={formDetails.password} onChange={onInputChange}
                                type={showPassword ? "" : "password"}/>
@@ -110,8 +147,10 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                                 }}
                                 className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
                         </button>
+                        <div className="invalid-feedback">Password must be atleast 6 characters long</div>
                     </div>
-                    <div className="invalid-feedback"></div>
+
+
                 </div>
                 <div className="mb-3">
                     <label htmlFor="profilePicture" className="form-label">Profile Picture</label>
