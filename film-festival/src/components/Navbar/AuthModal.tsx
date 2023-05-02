@@ -2,6 +2,9 @@ import React, {createRef} from 'react';
 import {RegisterModalBody} from "./RegisterModalBody";
 import {LoginModalBody} from "./LoginModalBody";
 
+// TODO: On click outside of modal, clear data from forms
+// TODO: Make the left box center properly
+
 export const AuthModal = () => {
 
     const [mode, setMode] = React.useState<"Login" | "Register">("Login");
