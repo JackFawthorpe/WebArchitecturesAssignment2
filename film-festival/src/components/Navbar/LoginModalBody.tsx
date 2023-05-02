@@ -40,7 +40,6 @@ export const LoginModalBody = forwardRef((props, ref) => {
 
     useEffect(() => {
         if (showEmptyError) {
-            clearTimeout(errorTimeoutReference.current);
             errorTimeoutReference.current = setTimeout(() => {
                 setShowEmptyError(false);
             }, 5000)
