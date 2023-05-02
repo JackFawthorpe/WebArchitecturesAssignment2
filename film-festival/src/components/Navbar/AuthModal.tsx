@@ -6,7 +6,7 @@ export const AuthModal = () => {
 
     const [mode, setMode] = React.useState<"Login" | "Register">("Login");
 
-    const childRef = createRef<{ submitForm: () => void }>();
+    const childRef = createRef<{ submitForm: () => void, clearForm: () => void }>();
 
     const toggleBody = () => {
         setMode(mode === "Register" ? "Login" : "Register");
@@ -15,6 +15,12 @@ export const AuthModal = () => {
     const submitForm = () => {
         if (childRef.current) {
             childRef.current.submitForm();
+        }
+    }
+
+    const handleClose = () => {
+        if (childRef.current) {
+            childRef.current.clearForm();
         }
     }
 
@@ -31,7 +37,8 @@ export const AuthModal = () => {
                                 <span className="mb-5">
                                     {mode === "Register" ? "Already have an account?" : "Don't have an account?"}
                                 </span>
-                                <button className="btn btn-sm btn-primary"
+                                <br/>
+                                <button className="btn btn-sm btn-primary mt-3"
                                         onClick={toggleBody}>
                                     {mode === "Register" ? "Login" : "Register"}
                                 </button>
@@ -45,7 +52,7 @@ export const AuthModal = () => {
                     </div>
                     <div className="modal-footer">
                         <button className="btn btn-primary" onClick={submitForm}>{mode}</button>
-                        <button className="btn btn-secondary" data-bs-dismiss="modal">
+                        <button className="btn btn-secondary" onClick={handleClose} data-bs-dismiss="modal">
                             Close
                         </button>
                     </div>

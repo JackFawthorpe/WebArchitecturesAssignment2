@@ -3,11 +3,16 @@ import {forwardRef, useImperativeHandle} from "react";
 export const RegisterModalBody = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
-        submitForm
+        submitForm,
+        clearForm
     }));
 
     const submitForm = () => {
         console.log("Submitting Register form");
+    }
+
+    const clearForm = () => {
+        // Pass
     }
 
     return (
