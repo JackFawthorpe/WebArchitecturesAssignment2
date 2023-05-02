@@ -4,7 +4,7 @@ import {LoginModalBody} from "./LoginModalBody";
 
 // TODO: On click outside of modal, clear data from forms
 // TODO: Make the left box center properly
-
+// TODO: Look into clearing data after the fields completely disappear
 export const AuthModal = () => {
 
     const [mode, setMode] = React.useState<"Login" | "Register">("Login");
