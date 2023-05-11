@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="WebArchitecturesAssignment1" />
+    <orderEntry type="module" module-name="WebArchitecturesAssignment1Reference" />
   </component>
 </module>

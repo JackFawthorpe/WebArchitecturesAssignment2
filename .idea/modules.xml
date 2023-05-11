@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../WebArchitecturesAssignment1/.idea/WebArchitecturesAssignment1.iml" filepath="$PROJECT_DIR$/../WebArchitecturesAssignment1/.idea/WebArchitecturesAssignment1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../WebArchitecturesAssignment1Reference/.idea/WebArchitecturesAssignment1Reference.iml" filepath="$PROJECT_DIR$/../WebArchitecturesAssignment1Reference/.idea/WebArchitecturesAssignment1Reference.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/WebArchitecturesAssignment2.iml" filepath="$PROJECT_DIR$/.idea/WebArchitecturesAssignment2.iml" />
     </modules>
   </component>

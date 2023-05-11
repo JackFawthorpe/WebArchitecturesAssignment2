@@ -21,8 +21,9 @@
     "zustand": "^4.3.7"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "sass-watch": "sass --watch --update src/resources/scss",
+    "start": "sass src/resources/scss && react-scripts start",
+    "build": "npm run compile-scss && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -43,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.62.1"
   }
 }
