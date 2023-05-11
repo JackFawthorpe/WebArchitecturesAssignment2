@@ -1,5 +1,6 @@
 import React from "react";
 import FilmDropDownsCard from "./FilmDropDownsCard";
+import FilmSortCard from "./FilmSortCard";
 
 const FilmNav = () => {
     return (
@@ -11,9 +12,7 @@ const FilmNav = () => {
             </div>
             <div className="row">
                 <div className='col py-2'>
-                    <div className='card'>
-                        Test
-                    </div>
+                    <FilmSortCard/>
                 </div>
             </div>
             <div className="row">
