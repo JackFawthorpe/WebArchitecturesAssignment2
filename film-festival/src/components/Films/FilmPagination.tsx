@@ -1,6 +1,10 @@
 import React from "react";
 
-const FilmPagination = () => {
+type FilmNavProps = {
+    changeFilmQuery: ({}) => void
+}
+
+const FilmPagination = (props: FilmNavProps) => {
     return (
         <div className='card'>
             <div className='row p-2'>

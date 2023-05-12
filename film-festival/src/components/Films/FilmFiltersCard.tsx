@@ -1,4 +1,9 @@
-const FilmFiltersCard = () => {
+
+type FilmNavProps = {
+    changeFilmQuery: ({}) => void
+}
+
+const FilmFiltersCard = (props: FilmNavProps) => {
 
     const isUserLoggedIn = true;
 

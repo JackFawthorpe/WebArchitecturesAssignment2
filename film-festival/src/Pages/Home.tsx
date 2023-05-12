@@ -1,19 +1,46 @@
 import "../components/Films/FilmNav"
-import React from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import FilmNav from "../components/Films/FilmNav";
+import FilmSearchQuery from "../types/FilmSearch";
+import axios from "axios";
+import {getBaseUrl} from "../config/BaseUrl";
+import FilmCard from "../components/Films/FilmCard";
 
-const Home = () => {
+const Home = (initialQueryParams: FilmSearchQuery) => {
 
+    const [queryParams, setQueryParams] = useState<FilmSearchQuery>(initialQueryParams);
+
+    const [filmList, setFilmList] = useState<Film[]>([]);
+
+    useEffect( () => {
+        let isGood = true;
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(getBaseUrl() + "/films", {params:queryParams});
+                if (isGood) {
+                    console.log(response.data.films);
+                    setFilmList(response.data.films);
+                }
+            } catch {
+                console.log("Oops");
+            }
+        }
+
+        fetchData();
+        return () => {isGood = false}
+    }, [queryParams]);
 
     return (
         <>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-8">
-
+                        <div className={'row'}>
+                            {filmList.map((film) => <FilmCard {...film}/>)}
+                        </div>
                     </div>
                     <div className="col-4 p-0">
-                        <FilmNav/>
+                        <FilmNav changeFilmQuery={setQueryParams}/>
                     </div>
                 </div>
             </div>

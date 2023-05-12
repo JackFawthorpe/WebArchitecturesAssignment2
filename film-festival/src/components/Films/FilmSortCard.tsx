@@ -1,6 +1,10 @@
 import React from "react";
 
-const FilmSortCard = () => {
+type FilmNavProps = {
+    changeFilmQuery: ({}) => void
+}
+
+const FilmSortCard = (props: FilmNavProps) => {
     return (
         <div className='card h-100'>
             <div className='row p-2'>
