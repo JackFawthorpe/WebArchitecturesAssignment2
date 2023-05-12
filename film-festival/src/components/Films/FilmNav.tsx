@@ -1,25 +1,22 @@
 import React from "react";
-import FilmDropDownsCard from "./FilmDropDownsCard";
+import FilmFiltersCard from "./FilmFiltersCard";
 import FilmSortCard from "./FilmSortCard";
+import FilmPaginationCard from "./FilmPagination";
 
 const FilmNav = () => {
     return (
         <div className="bg-secondary vh-100 container">
             <div className="row">
                 <div className='col py-2'>
-                    <FilmDropDownsCard/>
+                    <FilmFiltersCard/>
                 </div>
             </div>
             <div className="row">
-                <div className='col py-2'>
+                <div className='col-6 py-2'>
                     <FilmSortCard/>
                 </div>
-            </div>
-            <div className="row">
-                <div className='col py-2'>
-                    <div className='card'>
-                        Test
-                    </div>
+                <div className='col-6 py-2'>
+                    <FilmPaginationCard/>
                 </div>
             </div>
         </div>)
