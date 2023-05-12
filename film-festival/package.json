@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "react-bootstrap": "^2.7.4",
     "sass": "^1.62.1"
   }
 }

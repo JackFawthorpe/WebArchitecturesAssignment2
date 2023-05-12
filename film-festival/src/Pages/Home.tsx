@@ -36,7 +36,7 @@ const Home = (initialQueryParams: FilmSearchQuery) => {
                 <div className="row">
                     <div className="col-8">
                         <div className={'row'}>
-                            {filmList.map((film) => <FilmCard {...film}/>)}
+                            {filmList.map((film) => <FilmCard key={film.title} {...film}/>)}
                         </div>
                     </div>
                     <div className="col-4 p-0">

@@ -1,3 +1,8 @@
+import Genre from "../../types/Genre";
+import React, {useEffect, useMemo, useState} from "react";
+import {getBaseUrl} from "../../config/BaseUrl";
+import axios from "axios";
+import {Button, Dropdown, DropdownButton} from "react-bootstrap";
 
 type FilmNavProps = {
     changeFilmQuery: ({}) => void
@@ -6,6 +11,36 @@ type FilmNavProps = {
 const FilmFiltersCard = (props: FilmNavProps) => {
 
     const isUserLoggedIn = true;
+
+    const [nonSelectedGenres, setNonSelectedGenres] = useState<Genre[]>([{genreId: -1, name: "Loading Genres"}]);
+    const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+
+    useEffect(() => {
+        fetchGenres();
+    }, [])
+
+    const fetchGenres = async () => {
+        let isSubscribed = true;
+        try {
+            const response = await axios.get(getBaseUrl() + "/films/genres");
+            if (isSubscribed) {
+                console.log(response.data);
+                setNonSelectedGenres(response.data);
+            }
+        } catch (e: any) {
+            console.log(e.message);
+        }
+        return () => {isSubscribed = false}
+    }
+
+    const addGenre = (genre: Genre) => {
+        setSelectedGenres(prev => [...prev, genre])
+        setNonSelectedGenres(prev => prev.filter((listGenre) => (listGenre !== genre)))
+    }
+    const removeGenre = (genre: Genre) => {
+        setNonSelectedGenres(prev => [...prev, genre])
+        setSelectedGenres(prev => prev.filter((listGenre) => (listGenre !== genre)))
+    }
 
     return (
         <div className='card'>
@@ -19,23 +54,22 @@ const FilmFiltersCard = (props: FilmNavProps) => {
                             <label className='form-label h3' htmlFor='Genre'>
                                 Genre
                             </label>
-                            <div className='dropdown'>
-                                <button className="btn btn-primary dropdown-toggle" type="button" id="GenreDropdown"
-                                        data-toggle="dropdown">
-                                    Add a genre filter
-                                </button>
-                            </div>
+                            <Dropdown>
+                                <DropdownButton title="Add a genre filter">
+                                    {nonSelectedGenres.map((genre) => (
+                                        <Dropdown.Item key={'genre ' + genre.genreId} onClick={() => addGenre(genre)}>{genre.name}</Dropdown.Item>
+                                    ))}
+                                </DropdownButton>
+                            </Dropdown>
                         </div>
                         <div className='col-6'>
                             <label className='form-label  h3' htmlFor='Genre'>
                                 Age Rating
                             </label>
-                            <div className='dropdown'>
-                                <button className="btn btn-primary dropdown-toggle" type="button" id="GenreDropdown"
-                                        data-toggle="dropdown">
-                                    Add a Age Rating filter
-                                </button>
-                            </div>
+                            <Dropdown>
+                                <DropdownButton title="Add a Age Rating filter">
+                                </DropdownButton>
+                            </Dropdown>
                         </div>
                     </div>
                     {isUserLoggedIn &&
@@ -56,6 +90,15 @@ const FilmFiltersCard = (props: FilmNavProps) => {
                                 </div>
 
                             </div>
+                        </div>
+                    }
+                    {selectedGenres.length !== 0 &&
+                        <div className={'row'}>
+                            {selectedGenres.map(genre =>
+                                <div className={'col py-1'}>
+                                    <span className={'badge badge-lg bg-primary text-black'} key={'genre ' + genre.genreId} onClick={() => removeGenre(genre)}>{genre.name}</span>
+                                </div>
+                            )}
                         </div>
                     }
                 </div>
