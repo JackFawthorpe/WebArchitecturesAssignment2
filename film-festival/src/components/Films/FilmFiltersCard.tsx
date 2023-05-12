@@ -1,11 +1,12 @@
 import Genre from "../../types/Genre";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {SetStateAction, useEffect, useMemo, useState} from "react";
 import {getBaseUrl} from "../../config/BaseUrl";
 import axios from "axios";
 import {Button, Dropdown, DropdownButton} from "react-bootstrap";
+import FilmSearchQuery from "../../types/FilmSearch";
 
 type FilmNavProps = {
-    changeFilmQuery: ({}) => void
+    changeFilmQuery:(action: SetStateAction<FilmSearchQuery>) => void;
 }
 
 const FilmFiltersCard = (props: FilmNavProps) => {
@@ -36,6 +37,7 @@ const FilmFiltersCard = (props: FilmNavProps) => {
     const addGenre = (genre: Genre) => {
         setSelectedGenres(prev => [...prev, genre])
         setNonSelectedGenres(prev => prev.filter((listGenre) => (listGenre !== genre)))
+        props.changeFilmQuery(prev => ({ ...prev, genreIds: [...prev.genreIds, genre.genreId] }))
     }
     const removeGenre = (genre: Genre) => {
         setNonSelectedGenres(prev => [...prev, genre])

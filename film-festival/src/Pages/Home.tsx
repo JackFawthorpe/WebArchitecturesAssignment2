@@ -8,7 +8,15 @@ import FilmCard from "../components/Films/FilmCard";
 
 const Home = (initialQueryParams: FilmSearchQuery) => {
 
-    const [queryParams, setQueryParams] = useState<FilmSearchQuery>(initialQueryParams);
+    const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
+        {
+            genreIds: [],
+            ageRatings: [],
+            sortBy: "bingo",
+            count: 0,
+            startIndex: 0,
+            ...initialQueryParams
+    });
 
     const [filmList, setFilmList] = useState<Film[]>([]);
 

@@ -1,9 +1,10 @@
-import React from "react";
+import React, {SetStateAction} from "react";
+import FilmSearchQuery from "../../types/FilmSearch";
+
 
 type FilmNavProps = {
-    changeFilmQuery: ({}) => void
+    changeFilmQuery:(action: SetStateAction<FilmSearchQuery>) => void;
 }
-
 const FilmPagination = (props: FilmNavProps) => {
     return (
         <div className='card'>

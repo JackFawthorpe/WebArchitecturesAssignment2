@@ -1,10 +1,11 @@
-import React from "react";
+import React, {SetStateAction} from "react";
 import FilmFiltersCard from "./FilmFiltersCard";
 import FilmSortCard from "./FilmSortCard";
 import FilmPaginationCard from "./FilmPagination";
+import FilmSearchQuery from "../../types/FilmSearch";
 
 type FilmNavProps = {
-    changeFilmQuery: ({}) => void
+    changeFilmQuery:(action: SetStateAction<FilmSearchQuery>) => void;
 }
 const FilmNav = (props: FilmNavProps) => {
     return (
