@@ -10,7 +10,8 @@ const Home = () => {
 
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
-            sortBy: "RELEASED_ASC"
+            sortBy: "RELEASED_ASC",
+            count: 8
         });
 
     const [filmList, setFilmList] = useState<Film[]>([]);
@@ -21,7 +22,6 @@ const Home = () => {
             try {
                 const response = await axios.get(getBaseUrl() + "/films", {params: queryParams});
                 if (isGood) {
-                    console.log(response.data.films);
                     setFilmList(response.data.films);
                 }
             } catch {
@@ -39,12 +39,12 @@ const Home = () => {
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-8">
+                    <div className="col-8 bg-success">
                         <div className={'row'}>
                             {filmList.map((film) => <FilmCard key={film.title} {...film}/>)}
                         </div>
                     </div>
-                    <div className="col-4 p-0">
+                    <div className="col-4 p-0 bg-secondary">
                         <FilmNav changeFilmQuery={setQueryParams}/>
                     </div>
                 </div>

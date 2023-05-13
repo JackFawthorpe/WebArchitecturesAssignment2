@@ -28,7 +28,6 @@ const FilmFiltersCard = (props: FilmNavProps) => {
         try {
             const response = await axios.get(getBaseUrl() + "/films/genres");
             if (isSubscribed) {
-                console.log(response.data);
                 setNonSelectedGenres(response.data);
             }
         } catch (e: any) {

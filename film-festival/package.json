@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "date-fns": "^2.30.0",
     "react-bootstrap": "^2.7.4",
     "sass": "^1.62.1"
   }
