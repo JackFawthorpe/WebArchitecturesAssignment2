@@ -80,7 +80,7 @@ const FilmFiltersCard = (props: FilmNavProps) => {
             <div className='form-group'>
                 <div className='container my-2'>
                     <div className='row'>
-                        <div className='col-6'>
+                        <div className='col-sm-6 pb-2'>
                             <label className='form-label h3' htmlFor='Genre'>
                                 Genre
                             </label>
@@ -94,7 +94,7 @@ const FilmFiltersCard = (props: FilmNavProps) => {
                             </Dropdown>
                         </div>
                         <div className='col-6'>
-                            <label className='form-label  h3' htmlFor='Genre'>
+                            <label className='form-label  h3' htmlFor='Age Rating'>
                                 Age Rating
                             </label>
                             <Dropdown>

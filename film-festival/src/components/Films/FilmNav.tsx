@@ -9,17 +9,17 @@ type FilmNavProps = {
 }
 const FilmNav = (props: FilmNavProps) => {
     return (
-        <nav className="bg-secondary vh-100 container">
+        <nav className="bg-secondary vh-sm-100 container">
             <div className="row">
                 <div className='col py-2'>
                     <FilmFiltersCard changeFilmQuery={props.changeFilmQuery}/>
                 </div>
             </div>
             <div className="row">
-                <div className='col-6 py-2'>
+                <div className='col-sm py-2'>
                     <FilmSortCard changeFilmQuery={props.changeFilmQuery}/>
                 </div>
-                <div className='col-6 py-2'>
+                <div className='col py-2'>
                     <FilmPaginationCard changeFilmQuery={props.changeFilmQuery}/>
                 </div>
             </div>

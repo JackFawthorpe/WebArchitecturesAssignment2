@@ -39,14 +39,15 @@ const Home = () => {
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-8 bg-success">
+                    <div className="col-sm-4 p-0 bg-secondary">
+                        <FilmNav changeFilmQuery={setQueryParams}/>
+                    </div>
+                    <div className="col-sm-8 bg-success">
                         <div className={'row'}>
                             {filmList.map((film) => <FilmCard key={film.title} {...film}/>)}
                         </div>
                     </div>
-                    <div className="col-4 p-0 bg-secondary">
-                        <FilmNav changeFilmQuery={setQueryParams}/>
-                    </div>
+
                 </div>
             </div>
         </>

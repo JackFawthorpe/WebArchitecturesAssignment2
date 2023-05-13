@@ -48,12 +48,13 @@ const FilmCard = (film: Film) => {
     return (
         <>
             {loadedDirector && genre !== null &&
-                <div className={'col-6 py-3'}>
+                <div className={'col-lg-6 py-3'}>
                     <div className={'card'}>
                         <div className={'card-body'}>
                             <div className='row'>
-                                <div className='col'>
-                                    <img src={getBaseUrl() + "/films/" + film.filmId + "/image"} className="img-fluid"
+                                <div className='col-md-6'>
+                                    <img src={getBaseUrl() + "/films/" + film.filmId + "/image"}
+                                         className="img-fluid pb-2"
                                          alt="Missing Film Image"/>
                                 </div>
                                 <div className='col'>
@@ -64,10 +65,10 @@ const FilmCard = (film: Film) => {
                                     <p className='card-text'>Genre: {genre}</p>
                                     <p className='card-text'>Rating: {film.rating}</p>
                                     <div className='row'>
-                                        <div className='col'>
+                                        <div className='col-xl-4'>
                                             <p className='card-text'>Director: {director.firstName} {director.lastName}</p>
                                         </div>
-                                        <div className='col'>
+                                        <div className='col-8'>
                                             <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
                                                  className="rounded float-end img-thumbnail director-image text-center"
                                                  alt="Missing Director's Picture"/>
