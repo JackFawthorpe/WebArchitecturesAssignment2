@@ -6,11 +6,11 @@ import axios from "axios";
 import {getBaseUrl} from "../config/BaseUrl";
 import FilmCard from "../components/Films/FilmCard";
 
-const Home = (initialQueryParams: FilmSearchQuery) => {
+const Home = () => {
 
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
-            ...initialQueryParams
+            sortBy: "RELEASED_ASC"
         });
 
     const [filmList, setFilmList] = useState<Film[]>([]);
