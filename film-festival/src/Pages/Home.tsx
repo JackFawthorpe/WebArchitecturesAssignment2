@@ -1,5 +1,5 @@
 import "../components/Films/FilmNav"
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import FilmNav from "../components/Films/FilmNav";
 import FilmSearchQuery from "../types/FilmSearch";
 import axios from "axios";
@@ -10,21 +10,16 @@ const Home = (initialQueryParams: FilmSearchQuery) => {
 
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
-            genreIds: [],
-            ageRatings: [],
-            sortBy: "bingo",
-            count: 0,
-            startIndex: 0,
             ...initialQueryParams
-    });
+        });
 
     const [filmList, setFilmList] = useState<Film[]>([]);
 
-    useEffect( () => {
+    useEffect(() => {
         let isGood = true;
         const fetchData = async () => {
             try {
-                const response = await axios.get(getBaseUrl() + "/films", {params:queryParams});
+                const response = await axios.get(getBaseUrl() + "/films", {params: queryParams});
                 if (isGood) {
                     console.log(response.data.films);
                     setFilmList(response.data.films);
@@ -35,7 +30,9 @@ const Home = (initialQueryParams: FilmSearchQuery) => {
         }
 
         fetchData();
-        return () => {isGood = false}
+        return () => {
+            isGood = false
+        }
     }, [queryParams]);
 
     return (
