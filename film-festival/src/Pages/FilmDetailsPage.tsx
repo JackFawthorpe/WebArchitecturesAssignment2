@@ -5,6 +5,7 @@ import axios from "axios";
 import {getBaseUrl} from "../config/BaseUrl";
 import Genre from "../types/Genre";
 import SuggestedFilms from "../components/Film/SuggestedFilms";
+import ReviewsCard from "../components/Film/ReviewsCard";
 
 
 const FilmDetailsPage = () => {
@@ -87,9 +88,7 @@ const FilmDetailsPage = () => {
                     <div className='row'>
                         <div className='col-md-8 p-2 d-flex flex-column'>
                             <FilmDetails film={film} genre={genre !== null ? genre : "Unknown"} director={director}/>
-                            <div className='card mt-3'>
-                                <h3 className='p-2'>Reviews</h3>
-                            </div>
+                            <ReviewsCard film={film}/>
                         </div>
                         <div className='col-4 d-flex flex-column'>
                             <SuggestedFilms genreId={film.genreId} directorId={film.directorId}/>
