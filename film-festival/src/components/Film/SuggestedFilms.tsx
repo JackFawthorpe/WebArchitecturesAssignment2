@@ -14,20 +14,24 @@ const SuggestedFilms = ({genreId, directorId}: SuggestedFilmsParams) => {
     const [suggestedFilms, setSuggestedFilms] = useState<Film[]>([]);
     const {id} = useParams();
 
+    const addFilms = (films: Film[]) => {
+        setSuggestedFilms(prev => {
+            const filteredFilms = films.filter((film: Film) => {
+                // Check if the film's ID is already present in the prev array
+                const isFilmAlreadyAdded = prev.some((prevFilm: Film) => prevFilm.title.toString() === film.title.toString());
+                return !isFilmAlreadyAdded && (film.filmId.toString() !== id);
+            });
+            return [...prev, ...filteredFilms];
+        });
+    }
+
     useEffect(() => {
         let isSubscribed = true;
         const fetchDirectorMovies = async () => {
             try {
                 const response = await axios.get(getBaseUrl() + "/films", {params: {directorId: directorId}});
                 if (isSubscribed) {
-                    setSuggestedFilms(prev => {
-                        const filteredFilms = response.data.films.filter((film: Film) => {
-                            // Check if the film's ID is already present in the prev array
-                            const isFilmAlreadyAdded = prev.some((prevFilm: Film) => prevFilm.title.toString() === film.title.toString());
-                            return !isFilmAlreadyAdded && (film.filmId.toString() !== id);
-                        });
-                        return [...prev, ...filteredFilms];
-                    });
+                    addFilms(response.data.films);
                 }
             } catch {
                 console.log("Oops");
@@ -38,14 +42,9 @@ const SuggestedFilms = ({genreId, directorId}: SuggestedFilmsParams) => {
             try {
                 const response = await axios.get(getBaseUrl() + "/films", {params: {genreIds: [genreId]}});
                 if (isSubscribed) {
-                    setSuggestedFilms(prev => {
-                        const filteredFilms = response.data.films.filter((film: Film) => {
-                            // Check if the film's ID is already present in the prev array
-                            const isFilmAlreadyAdded = prev.some((prevFilm: Film) => prevFilm.title.toString() === film.title.toString());
-                            return !isFilmAlreadyAdded && (film.filmId.toString() !== id);
-                        });
-                        return [...prev, ...filteredFilms];
-                    });
+                    if (isSubscribed) {
+                        addFilms(response.data.films);
+                    }
                 }
             } catch {
                 console.log("Oops");
