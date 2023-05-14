@@ -1,83 +1,13 @@
-import {useEffect, useState} from "react";
 import {getBaseUrl} from "../../config/BaseUrl";
-import axios from "axios";
 import {format} from "date-fns";
-import Genre from "../../types/Genre";
 
 type FilmDetailParams = {
-    id: number
+    genre: string,
+    film: FullFilm,
+    director: { firstName: string, lastName: string }
 }
 
-const FilmDetails = (props: FilmDetailParams) => {
-
-
-    const [film, setFilm] = useState<FullFilm | null>(null);
-    const [genre, setGenre] = useState<string | null>(null);
-
-    const [loadedDirector, setLoadedDirector] = useState<boolean>(false);
-    const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
-
-    useEffect(() => {
-
-        let isSubscribed = true;
-
-        const fetchFilmData = async () => {
-            try {
-                const response = await axios.get(getBaseUrl() + `/films/${props.id}`)
-                if (isSubscribed) {
-                    setFilm(response.data);
-                }
-            } catch (e) {
-                console.log("Error getting film data");
-                console.log(e);
-            }
-        }
-
-        fetchFilmData()
-
-        return () => {
-            isSubscribed = false;
-        }
-    }, [])
-
-    useEffect(() => {
-
-        let isSubscribed = true;
-
-        const fetchGenre = async () => {
-            try {
-                const response = await axios.get(getBaseUrl() + "/films/genres");
-                if (isSubscribed) {
-                    const genres: Genre[] = response.data;
-                    setGenre(genres.find((genre: { genreId: number, name: string }) => genre.genreId === film.genreId)?.name ?? "Unknown");
-                }
-            } catch {
-                console.log("Oops");
-            }
-        }
-
-        const fetchDirectorInfo = async () => {
-            try {
-                const response = await axios.get(getBaseUrl() + "/users/" + film.directorId);
-                if (isSubscribed) {
-                    setDirector(response.data);
-                    setLoadedDirector(true);
-                }
-            } catch {
-                console.log("Oops");
-            }
-        }
-
-        if (film != null) {
-            fetchGenre()
-            fetchDirectorInfo()
-        }
-
-
-        return () => {
-            isSubscribed = false;
-        }
-    }, [film])
+const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
 
     return (
         <>
@@ -116,18 +46,16 @@ const FilmDetails = (props: FilmDetailParams) => {
                                     </div>
                                 </div>
                             </div>
-                            {loadedDirector &&
-                                <div className='row pt-3 border-top'>
-                                    <div className='col'>
-                                        <h5>Director: {director.firstName} {director.lastName}</h5>
-                                    </div>
-                                    <div className='col'>
-                                        <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
-                                             className="rounded float-end img-thumbnail director-image text-center"
-                                             alt="Missing Director's Picture"/>
-                                    </div>
+                            <div className='row pt-3 border-top'>
+                                <div className='col'>
+                                    <h5>Director: {director.firstName} {director.lastName}</h5>
                                 </div>
-                            }
+                                <div className='col'>
+                                    <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
+                                         className="rounded float-end img-thumbnail director-image text-center"
+                                         alt="Missing Director's Picture"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

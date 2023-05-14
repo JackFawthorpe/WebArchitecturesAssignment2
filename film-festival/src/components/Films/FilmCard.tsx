@@ -48,31 +48,29 @@ const FilmCard = (film: Film) => {
     return (
         <>
             {loadedDirector && genre !== null &&
-                <div className={'col-lg-6 py-3'}>
-                    <div className={'card'}>
-                        <div className={'card-body'}>
-                            <div className='row'>
-                                <div className='col-md-6'>
-                                    <img src={getBaseUrl() + "/films/" + film.filmId + "/image"}
-                                         className="img-fluid pb-2"
-                                         alt="Missing Film Image"/>
-                                </div>
-                                <div className='col'>
-                                    <h5 className='card-title pb-1'>{film.title}</h5>
-                                    <p className='card-text'>Age Rating: {film.ageRating}</p>
-                                    <p className='card-text'>Release
-                                        Date: {format(new Date(film.releaseDate), 'dd/MM/yyyy')}</p>
-                                    <p className='card-text'>Genre: {genre}</p>
-                                    <p className='card-text'>Rating: {film.rating}</p>
-                                    <div className='row'>
-                                        <div className='col-xl-4'>
-                                            <p className='card-text'>Director: {director.firstName} {director.lastName}</p>
-                                        </div>
-                                        <div className='col-8'>
-                                            <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
-                                                 className="rounded float-end img-thumbnail director-image text-center"
-                                                 alt="Missing Director's Picture"/>
-                                        </div>
+                <div className={'card'}>
+                    <div className={'card-body'}>
+                        <div className='row'>
+                            <div className='col-md-6'>
+                                <img src={getBaseUrl() + "/films/" + film.filmId + "/image"}
+                                     className="img-fluid pb-2"
+                                     alt="Missing Film Image"/>
+                            </div>
+                            <div className='col'>
+                                <h2 className='card-title pb-1'>{film.title}</h2>
+                                <h4>Age Rating: {film.ageRating}</h4>
+                                <h4 className='card-text'>Release
+                                    Date: {format(new Date(film.releaseDate), 'dd/MM/yyyy')}</h4>
+                                <h4 className='card-text'>Genre: {genre}</h4>
+                                <h4 className='card-text'>Rating: {film.rating}</h4>
+                                <div className='row pt-5'>
+                                    <div className='col-xl-4'>
+                                        <h4 className='card-text'>Director: {director.firstName} {director.lastName}</h4>
+                                    </div>
+                                    <div className='col-8'>
+                                        <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
+                                             className="rounded float-end img-thumbnail director-image text-center"
+                                             alt="Missing Director's Picture"/>
                                     </div>
                                 </div>
                             </div>
