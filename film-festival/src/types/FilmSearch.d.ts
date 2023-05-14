@@ -5,8 +5,8 @@ type FilmSearchQuery = {
     genreIds?: Array<number>,
     ageRatings?: Array<string>,
     sortBy?: string
-    count?: number,
-    startIndex?: number
+    count: number,
+    startIndex: number
 }
 
 export default FilmSearchQuery

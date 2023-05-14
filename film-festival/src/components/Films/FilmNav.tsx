@@ -6,10 +6,12 @@ import FilmSearchQuery from "../../types/FilmSearch";
 
 type FilmNavProps = {
     changeFilmQuery: (action: SetStateAction<FilmSearchQuery>) => void;
+    filmCount: number
 }
 const FilmNav = (props: FilmNavProps) => {
+
     return (
-        <nav className="bg-secondary vh-sm-100 container">
+        <nav className="bg-secondary min-vh-100 container">
             <div className="row">
                 <div className='col py-2'>
                     <FilmFiltersCard changeFilmQuery={props.changeFilmQuery}/>
@@ -20,7 +22,7 @@ const FilmNav = (props: FilmNavProps) => {
                     <FilmSortCard changeFilmQuery={props.changeFilmQuery}/>
                 </div>
                 <div className='col py-2'>
-                    <FilmPaginationCard changeFilmQuery={props.changeFilmQuery}/>
+                    <FilmPaginationCard changeFilmQuery={props.changeFilmQuery} filmCount={props.filmCount}/>
                 </div>
             </div>
         </nav>)

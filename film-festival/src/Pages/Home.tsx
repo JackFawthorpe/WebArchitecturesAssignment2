@@ -11,10 +11,12 @@ const Home = () => {
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
             sortBy: "RELEASED_ASC",
-            count: 8
+            count: 8,
+            startIndex: 0
         });
 
     const [filmList, setFilmList] = useState<Film[]>([]);
+    const [filmCount, setFilmCount] = useState<number>(0);
 
     useEffect(() => {
         let isGood = true;
@@ -23,6 +25,7 @@ const Home = () => {
                 const response = await axios.get(getBaseUrl() + "/films", {params: queryParams});
                 if (isGood) {
                     setFilmList(response.data.films);
+                    setFilmCount(response.data.count);
                 }
             } catch {
                 console.log("Oops");
@@ -40,7 +43,7 @@ const Home = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-4 p-0 bg-secondary">
-                        <FilmNav changeFilmQuery={setQueryParams}/>
+                        <FilmNav changeFilmQuery={setQueryParams} filmCount={filmCount}/>
                     </div>
                     <div className="col-sm-8 bg-success">
                         <div className={'row'}>

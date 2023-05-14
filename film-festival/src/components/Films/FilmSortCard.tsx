@@ -39,12 +39,11 @@ const FilmSortCard = (props: FilmNavProps) => {
         }
     }
 
-    const toggleDirection = () => {
-        setIsAsc(!isAsc);
+    useEffect(() => {
         let newSort = sortString.substring(0, sortString.indexOf('_') + 1);
         newSort += isAsc ? "ASC" : "DESC"
         setSortString(newSort);
-    }
+    }, [isAsc])
 
     return (
         <div className='card h-100'>
@@ -53,6 +52,7 @@ const FilmSortCard = (props: FilmNavProps) => {
             </div>
             <div className='container my-2'>
                 <div className='row p-0'>
+
                     <div className='col'>
                         <Dropdown>
                             <DropdownButton id="DropdownButton" title={currentDropTitle}>
@@ -64,7 +64,9 @@ const FilmSortCard = (props: FilmNavProps) => {
                         </Dropdown>
                     </div>
                     <div className='col px-0'>
-                        <button className="btn btn-primary" onClick={toggleDirection}>
+                        <button className="btn btn-primary" onClick={() => {
+                            setIsAsc(!isAsc)
+                        }}>
                             {isAsc ? '▲' : '▼'}
                         </button>
                     </div>
