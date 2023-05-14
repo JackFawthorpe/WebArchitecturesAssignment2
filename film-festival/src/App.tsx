@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import "./resources/scss/main.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import Layout from "./Pages/Layout";
-import Home from "./Pages/Home";
+import FilmsPage from "./Pages/FilmsPage";
+import FilmDetailsPage from "./Pages/FilmDetailsPage";
 
 function App() {
     return (
@@ -12,8 +13,9 @@ function App() {
                 <div>
                     <Routes>
                         <Route path="/" element={<Layout/>}>
-                            <Route path="*" element={<Home/>}/>
-                            <Route path="" element={<Home/>}/>
+                            <Route path="/" element={<FilmsPage/>}/>
+                            <Route path="/film/:id" element={<FilmDetailsPage/>}/>
+                            <Route path="*" element={<FilmsPage/>}/>
                         </Route>
                     </Routes>
                 </div>

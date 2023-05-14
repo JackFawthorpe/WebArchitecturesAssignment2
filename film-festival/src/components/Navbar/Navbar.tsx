@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-primary justify-content-between">
             <div className="ms-2">
-                <a className="navbar-brand" href="src/components/Navbar/Navbar#">Nimbd</a>
+                <a className="navbar-brand" href="/films">Nimbd</a>
             </div>
             <div className="col-6">
                 <form className="d-flex" role="search">

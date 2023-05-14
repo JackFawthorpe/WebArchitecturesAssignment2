@@ -7,8 +7,8 @@ import Genre from "../../types/Genre";
 const FilmCard = (film: Film) => {
 
     const [loadedDirector, setLoadedDirector] = useState<boolean>(false);
-    const [genre, setGenre] = useState<string | null>(null);
     const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
+    const [genre, setGenre] = useState<string | null>(null);
 
     useEffect(() => {
         let isSubscribed = true;

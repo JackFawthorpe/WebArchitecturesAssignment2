@@ -9,3 +9,9 @@ type Film = {
     rating: number,
     ageRating: string
 }
+
+type FullFilm = {
+    description: string,
+    numReviews: number,
+    runtime: number
+} & film

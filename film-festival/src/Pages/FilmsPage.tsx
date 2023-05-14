@@ -6,7 +6,7 @@ import axios from "axios";
 import {getBaseUrl} from "../config/BaseUrl";
 import FilmCard from "../components/Films/FilmCard";
 
-const Home = () => {
+const FilmsPage = () => {
 
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
@@ -57,4 +57,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default FilmsPage;
