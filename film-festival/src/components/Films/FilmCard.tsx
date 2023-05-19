@@ -57,7 +57,9 @@ const FilmCard = (film: Film) => {
                                      alt="Missing Film Image"/>
                             </div>
                             <div className='col'>
-                                <h2 className='card-title pb-1'>{film.title}</h2>
+                                <a href={`/film/${film.filmId}`}>
+                                    <h2 className='card-title pb-1'>{film.title}</h2>
+                                </a>
                                 <h4>Age Rating: {film.ageRating}</h4>
                                 <h4 className='card-text'>Release
                                     Date: {format(new Date(film.releaseDate), 'dd/MM/yyyy')}</h4>
@@ -77,6 +79,7 @@ const FilmCard = (film: Film) => {
                         </div>
                     </div>
                 </div>
+
             }
         </>
     )
