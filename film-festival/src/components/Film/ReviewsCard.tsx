@@ -40,7 +40,7 @@ const ReviewsCard = ({film}: ReviewsProps) => {
                             <h3 className='p-2'>Reviews ({reviews.length} Total)</h3>
                         </div>
                         <div className='row d-flex flex-column'>
-                            {reviews.map((review: Review) => <Review {...review}/>
+                            {reviews.map((review: Review) => <Review key={"Review " + review.reviewerId} {...review}/>
                             )}
                         </div>
                     </div>

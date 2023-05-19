@@ -4,7 +4,6 @@ import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
 
 // TODO: Add image handling
-// TODO: Add Back end error handling
 // TODO: Add user to global state
 
 interface FormDetails {
@@ -72,11 +71,6 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         console.log(data);
     }
 
-    const handleBadRegisterRequest = (err: any) => {
-        console.log(JSON.stringify(err));
-        setSubmittingForm(false);
-    }
-
     const handleBadLoginRequest = (err: any) => {
         console.log(JSON.stringify(err));
     }
@@ -116,6 +110,30 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         }
     }, [showEmptyFieldError])
 
+    const showEmailTimerRef = useRef<any>(-1);
+    const [showEmailInUseError, setShowEmailInUseError] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (showEmailInUseError) {
+            showEmailTimerRef.current = setTimeout(() => {
+                setShowEmailInUseError(false);
+            }, 5000)
+
+            return () => {
+                clearTimeout(showEmailTimerRef.current)
+            }
+        }
+    }, [showEmailInUseError])
+
+    const handleBadRegisterRequest = (err: any) => {
+        if (err.status === 403) {
+            setShowEmailInUseError(true);
+        } else {
+            console.log(JSON.stringify(err));
+        }
+        setSubmittingForm(false);
+    }
+
     const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFormDetails({...formDetails, [event.target.name]: event.target.value})
     }
@@ -143,21 +161,27 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                            value={formDetails.lastName} onChange={onInputChange}/>
                     <div className="invalid-feedback">
                         {(formDetails.lastName.length === 0 && showEmptyFieldError)
-                            ? "Last name cannot be emnpty"
+                            ? "Last name cannot be empty"
                             : "Last name cannot be longer than 64 characters"}
                     </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input className={`form-control 
-                    ${(!patterns.email.test(formDetails.email) && formDetails.email.length !== 0) || (formDetails.email.length === 0 && showEmptyFieldError) ? 'is-invalid' : ''}`}
+                    ${(!patterns.email.test(formDetails.email) && formDetails.email.length !== 0) || (formDetails.email.length === 0 && showEmptyFieldError) || (showEmailInUseError) ? 'is-invalid' : ''}`}
                            name="email"
                            value={formDetails.email} onChange={onInputChange}/>
-                    <div className="invalid-feedback">
-                        {patterns.email.test(formDetails.email)
-                            ? "Please enter a valid email"
-                            : "Email cannot be empty"}
-                    </div>
+                    {!showEmailInUseError &&
+                        <div className="invalid-feedback">
+                            {patterns.email.test(formDetails.email)
+                                ? "Please enter a valid email"
+                                : "Email cannot be empty"}
+                        </div>}
+                    {showEmailInUseError &&
+                        <div className="invalid-feedback">
+                            Email is already in use
+                        </div>
+                    }
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
