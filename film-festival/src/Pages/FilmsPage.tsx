@@ -8,6 +8,7 @@ import FilmCard from "../components/Films/FilmCard";
 
 const FilmsPage = () => {
 
+
     const [queryParams, setQueryParams] = useState<FilmSearchQuery>(
         {
             sortBy: "RELEASED_ASC",

@@ -28,6 +28,7 @@ export const RightNav = () => {
 
     return (
         <div className="me-2">
+            <a className="btn btn-secondary me-2" href="/films">All films</a>
             {currentUser === null ? loggedOutAuthBar() : loggedInAuthBar()}
         </div>
     )

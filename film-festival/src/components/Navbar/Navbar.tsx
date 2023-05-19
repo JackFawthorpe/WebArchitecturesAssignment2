@@ -1,18 +1,12 @@
 import {RightNav} from "./RightNav";
 
 const Navbar = () => {
+
     return (
         <nav className="navbar navbar-expand-lg bg-primary justify-content-between">
-            <div className="ms-2">
-                <a className="navbar-brand" href="/films">Nimdb</a>
-            </div>
-            <div className="col-6">
-                <form className="d-flex" role="search">
-                    <input className="form-control me-2" type="search" placeholder="Search Films"
-                           aria-label="Search Films"/>
-                    <button className="btn btn-secondary" type="submit">Search</button>
-                </form>
-            </div>
+            <ul className='navbar-nav mr-auto'>
+                <a className="ms-2 navbar-brand" href="/films">Nimdb</a>
+            </ul>
             <RightNav/>
         </nav>
     )
