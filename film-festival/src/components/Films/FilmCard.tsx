@@ -4,7 +4,14 @@ import axios from "axios";
 import {getBaseUrl} from "../../config/BaseUrl";
 import Genre from "../../types/Genre";
 
+// @ts-ignore
+import defaultImage from "../../resources/defaultUser.png";
+
 const FilmCard = (film: Film) => {
+
+    const replaceImage = (error: any) => {
+        error.target.src = defaultImage;
+    }
 
     const [loadedDirector, setLoadedDirector] = useState<boolean>(false);
     const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
@@ -72,7 +79,8 @@ const FilmCard = (film: Film) => {
                                     <div className='col-8'>
                                         <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
                                              className="rounded float-end img-thumbnail director-image text-center"
-                                             alt="Missing Director's Picture"/>
+                                             alt="Director's Picture"
+                                             onError={replaceImage}/>
                                     </div>
                                 </div>
                             </div>

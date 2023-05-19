@@ -1,6 +1,9 @@
 import {getBaseUrl} from "../../config/BaseUrl";
 import {format} from "date-fns";
 
+// @ts-ignore
+import defaultImage from "../../resources/defaultUser.png";
+
 type FilmDetailParams = {
     genre: string,
     film: FullFilm,
@@ -8,6 +11,11 @@ type FilmDetailParams = {
 }
 
 const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
+
+    const replaceImage = (error: any) => {
+        error.target.src = defaultImage;
+    }
+
 
     return (
         <>
@@ -17,7 +25,7 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
                         <div className='col-md-4'>
                             <img src={getBaseUrl() + "/films/" + film.filmId + "/image"}
                                  className="img-fluid"
-                                 alt="Missing Film Image"/>
+                                 alt="Film Image"/>
                         </div>
                         <div className='col flex-grow-1 border-star'>
                             <div className='row border-bottom pb-3'>
@@ -53,7 +61,8 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
                                 <div className='col'>
                                     <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
                                          className="rounded float-end img-thumbnail director-image text-center"
-                                         alt="Missing Director's Picture"/>
+                                         alt="Missing Director's Picture"
+                                         onError={replaceImage}/>
                                 </div>
                             </div>
                         </div>
