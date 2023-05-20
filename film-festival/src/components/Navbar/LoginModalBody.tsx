@@ -55,12 +55,12 @@ export const LoginModalBody = forwardRef((props, ref) => {
                     ...user,
                     token: userDetails.token
                 })
-                axios.defaults.headers.common['X-Authorization'] = userDetails.token;
                 closeModal();
             } else {
                 return handleBadRequest(response);
             }
         }
+        axios.defaults.headers.common['X-Authorization'] = userDetails.token;
         storeUserData();
     }
 
@@ -129,44 +129,42 @@ export const LoginModalBody = forwardRef((props, ref) => {
     return (
         <div>
             <div className="container">
-                <form noValidate>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email address</label>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input
+                        className={`form-control ${!validEmail || (showEmptyError && formDetails.email.length === 0) ? "is-invalid" : ""}`}
+                        name="email"
+                        value={formDetails.email} onChange={onInputChange}/>
+                    <div
+                        className="invalid-feedback">{formDetails.email.length === 0 ? "Please enter an email" : "Please enter a valid email"}</div>
+                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.
+                    </div>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <div className="input-group has-validation">
                         <input
-                            className={`form-control ${!validEmail || (showEmptyError && formDetails.email.length === 0) ? "is-invalid" : ""}`}
-                            name="email"
-                            value={formDetails.email} onChange={onInputChange}/>
-                        <div
-                            className="invalid-feedback">{formDetails.email.length === 0 ? "Please enter an email" : "Please enter a valid email"}</div>
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.
-                        </div>
+                            className={`form-control ${(showEmptyError && formDetails.password.length === 0) ? "is-invalid" : ""}`}
+                            onChange={onInputChange} name="password"
+                            value={formDetails.password}
+                            type={showPassword ? "" : "password"}/>
+                        <button type="button"
+                                onClick={() => {
+                                    setShowPassword(!showPassword)
+                                }}
+                                className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
+                        </button>
+                        <div className="invalid-feedback">Please enter a password</div>
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <div className="input-group has-validation">
-                            <input
-                                className={`form-control ${(showEmptyError && formDetails.password.length === 0) ? "is-invalid" : ""}`}
-                                onChange={onInputChange} name="password"
-                                value={formDetails.password}
-                                type={showPassword ? "" : "password"}/>
-                            <button type="button"
-                                    onClick={() => {
-                                        setShowPassword(!showPassword)
-                                    }}
-                                    className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
-                            </button>
-                            <div className="invalid-feedback">Please enter a password</div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        {showBadCredentialsError &&
-                            <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}
-                        {showInternalServerError &&
-                            <div className="alert alert-danger" role="alert">An error occured making your request,
-                                please
-                                try again later</div>}
-                    </div>
-                </form>
+                </div>
+                <div className="row">
+                    {showBadCredentialsError &&
+                        <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}
+                    {showInternalServerError &&
+                        <div className="alert alert-danger" role="alert">An error occured making your request,
+                            please
+                            try again later</div>}
+                </div>
             </div>
         </div>
     )

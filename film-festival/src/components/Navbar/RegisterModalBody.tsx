@@ -69,7 +69,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         authStore.getState().login({
             email: formDetails.email,
             firstName: formDetails.firstName,
-            lastname: formDetails.lastName,
+            lastName: formDetails.lastName,
             id: data.userId,
             token: data.token
         });

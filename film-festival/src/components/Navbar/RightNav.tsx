@@ -3,12 +3,15 @@ import {authStore} from "../../store";
 import {useState} from "react";
 import axios from "axios";
 import {getBaseUrl} from "../../config/BaseUrl";
+import {useNavigate} from "react-router-dom";
 
 export const RightNav = () => {
 
     const currentUser = authStore(state => state.currentUser);
 
     const [showModal, setShowModal] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleShow = () => {
         setShowModal(true)
@@ -45,6 +48,11 @@ export const RightNav = () => {
     const loggedInAuthBar = () => {
         return (
             <>
+                <button className="btn btn-secondary me-2" onClick={() => {
+                    navigate("/profile")
+                }}>
+                    Profile
+                </button>
                 <button className="btn btn-secondary" onClick={handleLogout}>
                     Sign out
                 </button>
@@ -54,7 +62,10 @@ export const RightNav = () => {
 
     return (
         <div className="me-2">
-            <a className="btn btn-secondary me-2" href="/films">All films</a>
+            <button className="btn btn-secondary me-2" onClick={() => {
+                navigate("/")
+            }}>Films
+            </button>
             {currentUser === null ? loggedOutAuthBar() : loggedInAuthBar()}
         </div>
     )

@@ -107,28 +107,6 @@ const FilmFiltersCard = (props: FilmNavProps) => {
                             </Dropdown>
                         </div>
                     </div>
-                    {isUserLoggedIn &&
-                        <div className={'row pt-3'}>
-                            <div className={'col'}>
-                                <label className={'form-label h3'}>
-                                    Films I've interacted with
-                                </label>
-                                <div className={'row pt-2'}>
-                                    <div className={'col'}>
-                                        <input className="form-check-input" type="checkbox" id="MyFilmsCheckBox"/>
-                                        <label className={'ps-2 form-label h5'} htmlFor={"MyFilmsCheckBox"}>My
-                                            Films</label>
-                                    </div>
-                                    <div className={'col'}>
-                                        <input className="form-check-input" type="checkbox" id="MyReviewsCheckBox"/>
-                                        <label className={'ps-2 form-label h5'} htmlFor={"MyFilmsCheckBox"}>Films I've
-                                            reviewed</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
                     {(selectedGenres.length !== 0 || selectedAgeRatings.length !== 0) &&
                         <div className={'row'}>
                             {selectedGenres.map(genre =>
