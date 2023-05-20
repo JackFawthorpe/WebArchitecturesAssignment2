@@ -7,9 +7,10 @@ import AddReviewCard from "./AddReviewRow";
 
 type ReviewsProps = {
     film: FullFilm,
+    updateFilm: (isSubscribed: boolean) => {}
 }
 
-const ReviewsCard = ({film}: ReviewsProps) => {
+const ReviewsCard = ({film, updateFilm}: ReviewsProps) => {
 
     const reviewsAvailable = new Date(film.releaseDate) <= new Date();
     const currentUser = authStore(state => state.currentUser);
@@ -24,7 +25,9 @@ const ReviewsCard = ({film}: ReviewsProps) => {
         const fetchReviews = async () => {
             try {
                 const response = await axios.get(getBaseUrl() + `/films/${film.filmId}/reviews`);
-                setReviews(response.data);
+                if (isSubscribed) {
+                    setReviews(response.data);
+                }
             } catch (e) {
                 console.log("Error retrieving reviews");
             }
@@ -47,7 +50,7 @@ const ReviewsCard = ({film}: ReviewsProps) => {
     const getReviewCards = () => {
         return (
             <>
-                {canReview() && <AddReviewCard filmId={film.filmId} setReviews={setReviews}/>}
+                {canReview() && <AddReviewCard filmId={film.filmId} setReviews={setReviews} updateFilm={updateFilm}/>}
                 {currentUser == null &&
                     <div className='card mt-3'>
                         <div className='container-fluid'>

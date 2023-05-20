@@ -1,12 +1,13 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {getBaseUrl} from "../../config/BaseUrl";
 import axios from "axios";
 import {authStore} from "../../store";
 
-const AddReviewRow = (props: { filmId: number, setReviews: any }) => {
+const AddReviewRow = (props: { filmId: number, setReviews: any, updateFilm: (isSubscribed: boolean) => {} }) => {
 
     const [rating, setRating] = useState<number>(10);
     const [reviewText, setReviewText] = useState<string>("");
+    const [sentReview, setSentReview] = useState<boolean>(false);
 
     const currentUser = authStore(state => state.currentUser);
 
@@ -33,20 +34,23 @@ const AddReviewRow = (props: { filmId: number, setReviews: any }) => {
             }
 
             if (response.status === 201) {
-                const review = {
-                    reviewerId: currentUser?.id,
-                    rating: rating,
-                    review: reviewText,
-                    reviewerFirstName: currentUser?.firstName,
-                    reviewerLastName: currentUser?.lastName
-                }
-                props.setReviews((prev: any) => [review, ...prev])
+                setSentReview(true);
             } else {
                 console.log("Bad review")
             }
         }
         postReview();
     }
+
+    useEffect(() => {
+        let isSubscribed = true;
+        if (sentReview) {
+            props.updateFilm(isSubscribed);
+        }
+        return () => {
+            isSubscribed = false
+        }
+    }, [sentReview])
 
     return (
         <div className='card mt-3 p-2'>

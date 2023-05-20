@@ -20,23 +20,22 @@ const FilmDetailsPage = () => {
 
     const [film, setFilm] = useState<FullFilm | null>(null);
 
+    const fetchFilmData = async (isSubscribed: boolean) => {
+        try {
+            const response = await axios.get(getBaseUrl() + `/films/${id}`)
+            if (isSubscribed) {
+                setFilm(response.data);
+            }
+        } catch (e) {
+            console.log("Error getting film data");
+            console.log(e);
+        }
+    }
+
     useEffect(() => {
 
         let isSubscribed = true;
-
-        const fetchFilmData = async () => {
-            try {
-                const response = await axios.get(getBaseUrl() + `/films/${id}`)
-                if (isSubscribed) {
-                    setFilm(response.data);
-                }
-            } catch (e) {
-                console.log("Error getting film data");
-                console.log(e);
-            }
-        }
-
-        fetchFilmData()
+        fetchFilmData(isSubscribed)
 
         return () => {
             isSubscribed = false;
@@ -89,7 +88,7 @@ const FilmDetailsPage = () => {
                     <div className='row'>
                         <div className='col-md-8 p-2 d-flex flex-column'>
                             <FilmDetails film={film} genre={genre !== null ? genre : "Unknown"} director={director}/>
-                            <ReviewsCard film={film}/>
+                            <ReviewsCard film={film} updateFilm={fetchFilmData}/>
                         </div>
                         <div className='col-4 d-flex flex-column'>
                             <SuggestedFilms genreId={film.genreId} directorId={film.directorId}/>
