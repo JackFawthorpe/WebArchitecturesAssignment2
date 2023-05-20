@@ -3,6 +3,7 @@ import {getBaseUrl} from "../../config/BaseUrl";
 import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
 import {authStore} from "../../store";
+import {useNavigate} from "react-router-dom";
 
 interface FormDetails {
     email: string,
@@ -16,6 +17,9 @@ export const RegisterModalBody = forwardRef((props, ref) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [submittingForm, setSubmittingForm] = useState(false);
+    const [image, setImage] = useState(null);
+    const [contentType, setContentType] = useState<string>("");
+    const [showImageError, setShowImageError] = useState<boolean>(false);
 
     const [formDetails, setFormDetails] = useState<FormDetails>({
         email: "",
@@ -54,15 +58,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     const handleSuccessfulRegister = (data: { userId: number }, closeModal: any) => {
         axios.post(getBaseUrl() + "/users/login", formDetails)
             .then((response) => (handleSuccessfulLogin(response.data, closeModal)))
-            .catch((err) => {
-                if (err.response) {
-                    handleBadLoginRequest(err.response)
-                } else if (err.request) {
-                    console.log(err.request);
-                } else {
-                    console.log('Error', err.message);
-                }
-            })
+            .catch((err) => console.log(err))
     }
 
     const handleSuccessfulLogin = (data: { userId: number, token: string }, closeModal: any) => {
@@ -74,11 +70,25 @@ export const RegisterModalBody = forwardRef((props, ref) => {
             token: data.token
         });
         axios.defaults.headers.common['X-Authorization'] = data.token;
-        closeModal();
+        if (!showImageError && contentType !== "") {
+            axios.put(getBaseUrl() + `/users/${data.userId}/image`, image, {
+                headers: {
+                    "Content-Type": contentType
+                }
+            })
+                .then((response) => (handleSuccessfulImageUpload(closeModal)))
+                .catch(() => {
+                    handleSuccessfulImageUpload(closeModal)
+                })
+        }
     }
 
-    const handleBadLoginRequest = (err: any) => {
-        console.log(JSON.stringify(err));
+
+    const navigate = useNavigate();
+
+    const handleSuccessfulImageUpload = (closeModal: any) => {
+        closeModal();
+        navigate("/profile");
     }
 
     const clearForm = () => {
@@ -142,6 +152,20 @@ export const RegisterModalBody = forwardRef((props, ref) => {
 
     const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setFormDetails({...formDetails, [event.target.name]: event.target.value})
+    }
+
+
+    const handleImageChange = (e: any) => {
+        const file = e.target.files[0];
+        const fileType = file.type;
+        debugger
+        if (!["image/png", "image/jpeg", "image/gif"].includes(fileType)) {
+            setShowImageError(true);
+        } else {
+            setShowImageError(false);
+            setImage(file);
+            setContentType(fileType);
+        }
     }
 
     return (
@@ -213,9 +237,15 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="profilePicture" className="form-label">Profile Picture</label>
-                    <input className="form-control" type="file" id="profilePicture" name="profilePicFileName"
-                           value={formDetails.profilePicFileName} onChange={onInputChange}></input>
+                    <input type="file" accept="image/png,image/jpeg,image/gif"
+                           className={`form-control ${showImageError ? "is-invalid" : ""}`}
+                           onChange={handleImageChange}/>
+                    {showImageError && <div className="invalid-feedback">
+                        Please select a valid image type (.png, .jpeg, .jpg, .gif)
+                    </div>}
                 </div>
+                {image && <img src={URL.createObjectURL(image)} alt="Selected profile picture"
+                               className='img img-thumbnail'/>}
             </form>
         </div>
     )
