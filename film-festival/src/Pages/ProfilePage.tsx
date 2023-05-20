@@ -4,6 +4,7 @@ import {useState} from "react";
 import ViewProfileCard from "../components/Profile/ViewProfileCard";
 import EditProfileCard from "../components/Profile/EditProfileCard";
 import {authStore} from "../store";
+import InvolvedFilms from "../components/Profile/InvolvedFilms";
 
 const ProfilePage = () => {
 
@@ -18,6 +19,7 @@ const ProfilePage = () => {
                     {inEditMode ? <EditProfileCard setInEditMode={setInEditMode}/> :
                         <ViewProfileCard setInEditMode={setInEditMode}/>}
                 </div>
+                <InvolvedFilms/>
             </div>
         )
     }

@@ -53,7 +53,8 @@ export const LoginModalBody = forwardRef((props, ref) => {
                 const user: User = response.data;
                 authStore.getState().login({
                     ...user,
-                    token: userDetails.token
+                    token: userDetails.token,
+                    id: userDetails.userId
                 })
                 closeModal();
             } else {
