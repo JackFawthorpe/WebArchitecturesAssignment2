@@ -6,6 +6,7 @@ import Genre from "../../types/Genre";
 
 // @ts-ignore
 import defaultImage from "../../resources/defaultUser.png";
+import {Link, useNavigate} from "react-router-dom";
 
 const FilmCard = (film: Film) => {
 
@@ -52,6 +53,9 @@ const FilmCard = (film: Film) => {
         }
     }, [])
 
+    const navigate = useNavigate();
+
+
     return (
         <>
             {loadedDirector && genre !== null &&
@@ -64,9 +68,9 @@ const FilmCard = (film: Film) => {
                                      alt="Missing Film Image"/>
                             </div>
                             <div className='col'>
-                                <a href={`/film/${film.filmId}`}>
+                                <Link to={`/film/${film.filmId}`}>
                                     <h2 className='card-title pb-1'>{film.title}</h2>
-                                </a>
+                                </Link>
                                 <h4>Age Rating: {film.ageRating}</h4>
                                 <h4 className='card-text'>Release
                                     Date: {format(new Date(film.releaseDate), 'dd/MM/yyyy')}</h4>

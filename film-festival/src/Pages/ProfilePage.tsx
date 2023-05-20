@@ -14,7 +14,7 @@ const ProfilePage = () => {
 
     const loggedIn = () => {
         return (
-            <div className='container py-2'>
+            <div className='container py-2 bg-secondary'>
                 <div className='card p-3'>
                     {inEditMode ? <EditProfileCard setInEditMode={setInEditMode}/> :
                         <ViewProfileCard setInEditMode={setInEditMode}/>}
@@ -26,7 +26,7 @@ const ProfilePage = () => {
 
     const loggedOut = () => {
         return (
-            <div className='container py-2'>
+            <div className='container py-2 bg-secondary'>
                 <h3 className='card py-3 text-center'>
                     You are not currently logged in, Please register or Log in to view your profile
                 </h3>
@@ -34,7 +34,11 @@ const ProfilePage = () => {
         )
     }
 
-    return currentUser != null ? loggedIn() : loggedOut();
+    return (
+        <div className='container-fluid bg-secondary'>
+            {currentUser != null ? loggedIn() : loggedOut()}
+        </div>
+    )
 }
 
 export default ProfilePage

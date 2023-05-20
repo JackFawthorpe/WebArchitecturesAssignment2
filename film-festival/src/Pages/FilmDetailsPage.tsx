@@ -19,6 +19,7 @@ const FilmDetailsPage = () => {
     const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
 
     const [film, setFilm] = useState<FullFilm | null>(null);
+
     useEffect(() => {
 
         let isSubscribed = true;
@@ -40,7 +41,7 @@ const FilmDetailsPage = () => {
         return () => {
             isSubscribed = false;
         }
-    }, [])
+    }, [id])
 
     useEffect(() => {
 

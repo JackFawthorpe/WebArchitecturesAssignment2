@@ -26,6 +26,7 @@ const SuggestedFilms = ({genreId, directorId}: SuggestedFilmsParams) => {
     }
 
     useEffect(() => {
+        setSuggestedFilms([]);
         let isSubscribed = true;
         const fetchDirectorMovies = async () => {
             try {
@@ -56,7 +57,7 @@ const SuggestedFilms = ({genreId, directorId}: SuggestedFilmsParams) => {
         return () => {
             isSubscribed = false
         }
-    }, [])
+    }, [id])
 
     return (
         <div className='container py-2'>

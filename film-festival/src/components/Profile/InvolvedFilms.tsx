@@ -51,18 +51,21 @@ const InvolvedFilms = () => {
         <div className='row justify-content-center'>
             {directed.length !== 0 &&
                 <div className='col-6 mt-3'>
-                    <div className='card p-3'>
+                    <div className='card p-3 mb-2'>
                         <h2 className='text-center'>Films I've Directed</h2>
-                        {directed.map((film) => <FilmCard key={film.filmId} {...film}/>)}
                     </div>
+                    {directed.map((film) => <FilmCard key={film.filmId} {...film}/>)}
                 </div>
             }
             {reviewed.length !== 0 &&
                 <div className='col-6 mt-3'>
-                    <div className='card p-3'>
+                    <div className='card p-3 mb-2'>
                         <h2 className='text-center'>Films I've Reviewed</h2>
-                        {reviewed.map((film) => <FilmCard key={film.filmId} {...film}/>)}
                     </div>
+                    {reviewed.map((film) =>
+                        <div className='pb-2'>
+                            <FilmCard key={film.filmId} {...film}/>
+                        </div>)}
                 </div>
             }
         </div>

@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 
 const Layout = () => {
     return (
-        <div className="vh-100 bg-secondary">
+        <div className='vh-100 bg-secondary'>
             <Navbar/>
             <Outlet/>
         </div>
