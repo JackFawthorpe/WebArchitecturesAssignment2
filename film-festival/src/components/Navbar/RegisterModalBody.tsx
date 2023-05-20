@@ -158,7 +158,6 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     const handleImageChange = (e: any) => {
         const file = e.target.files[0];
         const fileType = file.type;
-        debugger
         if (!["image/png", "image/jpeg", "image/gif"].includes(fileType)) {
             setShowImageError(true);
         } else {
