@@ -4,3 +4,7 @@ type User = {
     firstName: string
     lastname: string
 }
+
+type LoggedInUser = {
+    token: string
+} & User

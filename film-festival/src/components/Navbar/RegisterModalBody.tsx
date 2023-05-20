@@ -4,9 +4,6 @@ import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
 import {authStore} from "../../store";
 
-// TODO: Add image handling
-// TODO: Add user to global state
-
 interface FormDetails {
     email: string,
     password: string
@@ -33,12 +30,12 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         clearForm
     }));
 
-    const submitForm = () => {
+    const submitForm = (closeModal: any) => {
         if (!hasEmptyRequiredFields && !hasInvalidFields) {
             if (!submittingForm) {
                 setSubmittingForm(true);
                 axios.post(getBaseUrl() + "/users/register", formDetails)
-                    .then((response) => (handleSuccessfulRegister(response.data)))
+                    .then((response) => (handleSuccessfulRegister(response.data, closeModal)))
                     .catch((err) => {
                         if (err.response) {
                             handleBadRegisterRequest(err.response)
@@ -54,9 +51,9 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         setShowEmptyFieldError(true);
     }
 
-    const handleSuccessfulRegister = (data: { userId: number }) => {
+    const handleSuccessfulRegister = (data: { userId: number }, closeModal: any) => {
         axios.post(getBaseUrl() + "/users/login", formDetails)
-            .then((response) => (handleSuccessfulLogin(response.data)))
+            .then((response) => (handleSuccessfulLogin(response.data, closeModal)))
             .catch((err) => {
                 if (err.response) {
                     handleBadLoginRequest(err.response)
@@ -68,13 +65,16 @@ export const RegisterModalBody = forwardRef((props, ref) => {
             })
     }
 
-    const handleSuccessfulLogin = (data: { userId: number, token: String }) => {
+    const handleSuccessfulLogin = (data: { userId: number, token: string }, closeModal: any) => {
         authStore.getState().login({
             email: formDetails.email,
             firstName: formDetails.firstName,
             lastname: formDetails.lastName,
-            id: data.userId
-        })
+            id: data.userId,
+            token: data.token
+        });
+        axios.defaults.headers.common['X-Authorization'] = data.token;
+        closeModal();
     }
 
     const handleBadLoginRequest = (err: any) => {

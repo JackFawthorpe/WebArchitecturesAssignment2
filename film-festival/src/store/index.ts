@@ -1,14 +1,14 @@
 import {create} from "zustand";
 
 interface AuthenticationState {
-    currentUser: User | null;
-    login: (user: User) => void;
+    currentUser: LoggedInUser | null;
+    login: (user: LoggedInUser) => void;
     logout: () => void;
 }
 
 export const authStore = create<AuthenticationState>((set) => ({
     currentUser: null,
-    login: (user: User) => set(() => {
+    login: (user: LoggedInUser) => set(() => {
         return {currentUser: user}
     }),
     logout: () => set((state) => {
