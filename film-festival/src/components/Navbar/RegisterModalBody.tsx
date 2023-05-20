@@ -2,6 +2,7 @@ import {ChangeEvent, forwardRef, useEffect, useImperativeHandle, useMemo, useRef
 import {getBaseUrl} from "../../config/BaseUrl";
 import {patterns} from "../../config/RegexPatterns";
 import axios from "axios";
+import {authStore} from "../../store";
 
 // TODO: Add image handling
 // TODO: Add user to global state
@@ -68,7 +69,12 @@ export const RegisterModalBody = forwardRef((props, ref) => {
     }
 
     const handleSuccessfulLogin = (data: { userId: number, token: String }) => {
-        console.log(data);
+        authStore.getState().login({
+            email: formDetails.email,
+            firstName: formDetails.firstName,
+            lastname: formDetails.lastName,
+            id: data.userId
+        })
     }
 
     const handleBadLoginRequest = (err: any) => {

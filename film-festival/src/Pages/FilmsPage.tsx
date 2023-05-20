@@ -49,8 +49,8 @@ const FilmsPage = () => {
                     <div className="col-sm-8 bg-success">
                         <div className={'row'}>
                             {filmList.map((film) =>
-                                <div className={'col-lg-6 py-3'}>
-                                    <FilmCard key={film.title} {...film}/>
+                                <div key={film.title} className={'col-lg-6 py-3'}>
+                                    <FilmCard  {...film}/>
                                 </div>
                             )}
                         </div>
