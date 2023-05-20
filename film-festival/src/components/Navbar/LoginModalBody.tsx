@@ -2,8 +2,7 @@ import {ChangeEvent, forwardRef, useEffect, useImperativeHandle, useMemo, useRef
 import {getBaseUrl} from "../../config/BaseUrl";
 import axios from "axios";
 import {patterns} from "../../config/RegexPatterns";
-
-// TODO: Add user to global state
+import {authStore} from "../../store";
 
 interface FormDetails {
     email: string,
@@ -28,10 +27,10 @@ export const LoginModalBody = forwardRef((props, ref) => {
         setShowPassword(false);
     }
 
-    const submitForm = () => {
+    const submitForm = (closeModal: any) => {
         if (formDetails.email !== "" && validEmail && formDetails.password !== "") {
             axios.post(getBaseUrl() + "/users/login", formDetails)
-                .then((response) => (logUserIn(response.data)))
+                .then((response) => (handleSuccessfulLogin(response.data, closeModal)))
                 .catch((err) => {
                     if (err.response) {
                         handleBadRequest(err.response)
@@ -47,8 +46,22 @@ export const LoginModalBody = forwardRef((props, ref) => {
     }
 
 
-    const logUserIn = (userDetails: any) => {
-        console.log(JSON.stringify(userDetails));
+    const handleSuccessfulLogin = async (userDetails: any, closeModal: any) => {
+        const storeUserData = async () => {
+            const response = await axios.get(getBaseUrl() + `/users/${userDetails.userId}`);
+            if (response.status === 200) {
+                const user: User = response.data;
+                authStore.getState().login({
+                    ...user,
+                    token: userDetails.token
+                })
+                axios.defaults.headers.common['X-Authorization'] = userDetails.token;
+                closeModal();
+            } else {
+                return handleBadRequest(response);
+            }
+        }
+        storeUserData();
     }
 
     const handleBadRequest = (err: any) => {
@@ -116,41 +129,44 @@ export const LoginModalBody = forwardRef((props, ref) => {
     return (
         <div>
             <div className="container">
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
-                    <input
-                        className={`form-control ${!validEmail || (showEmptyError && formDetails.email.length === 0) ? "is-invalid" : ""}`}
-                        name="email"
-                        value={formDetails.email} onChange={onInputChange}/>
-                    <div
-                        className="invalid-feedback">{formDetails.email.length === 0 ? "Please enter an email" : "Please enter a valid email"}</div>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.
-                    </div>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <div className="input-group has-validation">
+                <form noValidate>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email address</label>
                         <input
-                            className={`form-control ${(showEmptyError && formDetails.password.length === 0) ? "is-invalid" : ""}`}
-                            onChange={onInputChange} name="password"
-                            value={formDetails.password}
-                            type={showPassword ? "" : "password"}/>
-                        <button type="button"
-                                onClick={() => {
-                                    setShowPassword(!showPassword)
-                                }}
-                                className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
-                        </button>
-                        <div className="invalid-feedback">Please enter a password</div>
+                            className={`form-control ${!validEmail || (showEmptyError && formDetails.email.length === 0) ? "is-invalid" : ""}`}
+                            name="email"
+                            value={formDetails.email} onChange={onInputChange}/>
+                        <div
+                            className="invalid-feedback">{formDetails.email.length === 0 ? "Please enter an email" : "Please enter a valid email"}</div>
+                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    {showBadCredentialsError &&
-                        <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}
-                    {showInternalServerError &&
-                        <div className="alert alert-danger" role="alert">An error occured making your request, please
-                            try again later</div>}
-                </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <div className="input-group has-validation">
+                            <input
+                                className={`form-control ${(showEmptyError && formDetails.password.length === 0) ? "is-invalid" : ""}`}
+                                onChange={onInputChange} name="password"
+                                value={formDetails.password}
+                                type={showPassword ? "" : "password"}/>
+                            <button type="button"
+                                    onClick={() => {
+                                        setShowPassword(!showPassword)
+                                    }}
+                                    className="btn btn-outline-primary">{showPassword ? "Hide " : "Show "} Password
+                            </button>
+                            <div className="invalid-feedback">Please enter a password</div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        {showBadCredentialsError &&
+                            <div className="alert alert-danger" role="alert">Invalid Username or Password</div>}
+                        {showInternalServerError &&
+                            <div className="alert alert-danger" role="alert">An error occured making your request,
+                                please
+                                try again later</div>}
+                    </div>
+                </form>
             </div>
         </div>
     )
