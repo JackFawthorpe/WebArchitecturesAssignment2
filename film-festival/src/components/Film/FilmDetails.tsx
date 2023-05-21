@@ -22,9 +22,9 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
             {film !== null &&
                 <div className='card p-3'>
                     <div className='row'>
-                        <div className='col-md-4'>
+                        <div className='col-md-4 d-flex justify-content-center'>
                             <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
-                                 className="img-fluid"
+                                 className="img-thumbnail"
                                  alt="Film Image"/>
                         </div>
                         <div className='col flex-grow-1 border-star'>
@@ -33,7 +33,7 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
                                     <h3>{film.title}</h3>
                                 </div>
                                 <div className='col'>
-                                    <h3 className='float-end'>{film.numReviews !== 0 && "Rating: " + film.numReviews + "/10"}</h3>
+                                    <h3 className='float-end'>{film.numReviews !== 0 && "Rating: " + film.rating + "/10"}</h3>
                                 </div>
                             </div>
                             <div className='row pt-3 border-bottom'>

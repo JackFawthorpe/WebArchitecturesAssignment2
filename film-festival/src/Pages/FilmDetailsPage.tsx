@@ -35,13 +35,15 @@ const FilmDetailsPage = () => {
 
     useEffect(() => {
 
-        let isSubscribed = true;
-        fetchFilmData(isSubscribed)
+        if (!inEditMode) {
+            let isSubscribed = true;
+            fetchFilmData(isSubscribed)
 
-        return () => {
-            isSubscribed = false;
+            return () => {
+                isSubscribed = false;
+            }
         }
-    }, [id])
+    }, [id, inEditMode])
 
     useEffect(() => {
 
@@ -81,6 +83,12 @@ const FilmDetailsPage = () => {
             isSubscribed = false;
         }
     }, [film])
+
+    useEffect(() => {
+        if (currentUser == null) {
+            setInEditMode(false);
+        }
+    }, [currentUser])
 
     return (
         <>

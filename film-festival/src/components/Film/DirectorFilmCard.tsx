@@ -45,8 +45,11 @@ const DirectorFilmCard = ({film, setEditMode}: DirectorCardParams) => {
                         <button className='btn btn-primary' onClick={handleDelete}>Delete</button>
                     </div>
                 </div>
-                <div className='row pt-1'>
-                    <h5>Note: You will no longer be able to edit a film once a review has been placed</h5>
+                <div className='row pt-1 ps-1'>
+                    {film.numReviews === 0
+                        ? <h5>Note: You will no longer be able to edit a film once a review has been placed</h5>
+                        : <h5>You can no longer edi this film as it has been reviewed</h5>
+                    }
                 </div>
             </div>
         </div>

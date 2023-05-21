@@ -29,6 +29,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     const [genres, setGenres] = useState<Genre[]>([]);
     const [showImageSuccessText, setShowImageSuccessText] = useState<boolean>(false);
     const [genreTitle, setGenreTitle] = useState<string>("");
+    const initTime = Date.now();
 
     useEffect(() => {
         const date = new Date(formDetails.releaseDate ?? "");
@@ -77,14 +78,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     }
 
     const onInputChange = (event: any) => {
-        if (event.target.value === "") {
-            const updatedForm: FormDetails = formDetails;
-            // @ts-ignore
-            delete updatedForm[event.target.name];
-            setFormDetails(updatedForm);
-        } else {
-            setFormDetails({...formDetails, [event.target.name]: event.target.value})
-        }
+        setFormDetails({...formDetails, [event.target.name]: event.target.value})
     }
 
     const onRuntimeChange = (event: any) => {
@@ -125,7 +119,22 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     }
 
     const handleBadFormSubmission = (response: AxiosResponse) => {
-        setErrorText(response.statusText);
+        switch (response.statusText) {
+            case "Bad Request: data/description must NOT have fewer than 1 characters":
+                setErrorText("Description cannot be empty");
+                break;
+            case "Bad Request: data/title must NOT have fewer than 1 characters":
+                setErrorText("Title cannot be empty");
+                break;
+            case "Bad Request: data/releaseDate must match format \"datetime\"":
+                setErrorText("You appear to be missing fields from release date")
+                break;
+            case "Cannot release a film in the past.":
+                setErrorText("You cannot set the release date to the past");
+                break;
+            default:
+                setErrorText("An error has occurred, please try again later");
+        }
     }
 
     const handleImageUpload = () => {
@@ -165,9 +174,16 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                             </div>
                         }
                         {!image &&
-                            <img src={getBaseUrl() + `/films/${film.filmId}/image`}
-                                 className='img img-thumbnail'/>}
-                        {image && <img src={URL.createObjectURL(image)} className='img img-thumbnail'/>}
+                            <div className='row d-flex justify-content-center'>
+                                <img src={getBaseUrl() + `/films/${film.filmId}/image?${initTime}`}
+                                     className='img img-thumbnail'/>
+                            </div>
+                        }
+                        {image &&
+                            <div className='row d-flex justify-content-center'>
+                                <img src={URL.createObjectURL(image)}
+                                     className='img img-thumbnail'/>
+                            </div>}
                         <div className="mb-3 pt-2 ps-1">
                             <label htmlFor="profilePicture" className="form-label">Film Snapshot</label>
                             <div className='row'>
@@ -194,13 +210,14 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                         <div className="form-group">
                             <label htmlFor="title">Title:</label>
                             <input type="text" className={`form-control`} name="title"
-                                   placeholder="Enter movie title"
+                                   placeholder="Enter movie title" value={formDetails.title}
                                    onInput={onInputChange}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="description">Description:</label>
                             <textarea className={`form-control`} name="description"
-                                      placeholder="Enter movie description" onInput={onInputChange}/>
+                                      placeholder="Enter movie description" value={formDetails.description}
+                                      onInput={onInputChange}/>
                         </div>
                         <div className='row'>
                             <div className='col-6'>
@@ -208,7 +225,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                                     <label htmlFor="releaseDate">Release Date:</label>
                                     <input type="datetime-local" pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}"
                                            className={`form-control`}
-                                           name="releaseDate"
+                                           name="releaseDate" value={formDetails.releaseDate}
                                            onInput={onDateChange}/>
                                 </div>
                             </div>
@@ -216,7 +233,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                                 <div className="form-group">
                                     <label htmlFor="runtime">Runtime:</label>
                                     <input type="number" className={`form-control`}
-                                           name="runtime"
+                                           name="runtime" value={formDetails.runtime}
                                            placeholder="Enter movie runtime" onInput={onRuntimeChange}/>
                                 </div>
                             </div>
@@ -259,11 +276,11 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='row pt-3'>
-                        <div className='col'>
-                            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Details
-                            </button>
+                        <div className='row pt-1'>
+                            <div className='col'>
+                                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Details
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
