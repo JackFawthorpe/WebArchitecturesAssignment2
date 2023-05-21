@@ -15,8 +15,6 @@ const InvolvedFilms = () => {
         let isSubscribed = true;
 
         const fetchReviewed = async () => {
-
-
             try {
                 const response = await axios.get(getBaseUrl() + "/films", {params: {reviewerId: currentUser?.id}});
                 if (isSubscribed) {
