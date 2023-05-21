@@ -31,6 +31,16 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     const [genreTitle, setGenreTitle] = useState<string>("");
 
     useEffect(() => {
+        const date = new Date(formDetails.releaseDate ?? "");
+        const updatedForm = formDetails;
+        updatedForm["releaseDate"] = date.getFullYear() + "-" +
+            ("0" + (date.getMonth() + 1)).slice(-2) + "-" +
+            ("0" + date.getDate()).slice(-2) + " " +
+            ("0" + date.getHours()).slice(-2) + ":" +
+            ("0" + date.getMinutes()).slice(-2) + ":" +
+            ("0" + date.getSeconds()).slice(-2);
+        delete updatedForm["runtime"];
+        setFormDetails(updatedForm);
         fetchGenres();
     }, [])
 
@@ -40,7 +50,6 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
             const response = await axios.get(getBaseUrl() + "/films/genres");
             if (isSubscribed) {
                 setGenres(response.data);
-                setGenreTitle(genres.find((genre) => genre.genreId === film.genreId)?.name ?? "No genre selected")
             }
         } catch (e: any) {
             console.log(e.message);
@@ -49,6 +58,10 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
             isSubscribed = false
         }
     }
+
+    useEffect(() => {
+        setGenreTitle(genres.find((genre) => genre.genreId === film.genreId)?.name ?? "No genre selected")
+    }, [genres])
 
     const handleImageChange = (e: any) => {
         const file = e.target.files[0];
@@ -63,20 +76,56 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
         setContentType(fileType);
     }
 
-    const onInputChange = (e: any) => {
-
+    const onInputChange = (event: any) => {
+        if (event.target.value === "") {
+            const updatedForm: FormDetails = formDetails;
+            // @ts-ignore
+            delete updatedForm[event.target.name];
+            setFormDetails(updatedForm);
+        } else {
+            setFormDetails({...formDetails, [event.target.name]: event.target.value})
+        }
     }
 
-    const onDateChange = (e: any) => {
-
+    const onRuntimeChange = (event: any) => {
+        if (event.target.value == "") {
+            const updatedForm = formDetails;
+            delete updatedForm["runtime"];
+            setFormDetails(updatedForm);
+        } else {
+            setFormDetails({...formDetails, "runtime": parseInt(event.target.value)});
+        }
     }
 
-    const onRuntimeChange = (e: any) => {
-
+    const onDateChange = (event: any) => {
+        if (event.target.value == "") {
+            const updatedForm = formDetails;
+            delete updatedForm["releaseDate"];
+            setFormDetails(updatedForm);
+        } else {
+            const date = new Date(event.target.value);
+            setFormDetails({
+                ...formDetails, "releaseDate":
+                    date.getFullYear() + "-" +
+                    ("0" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("0" + date.getDate()).slice(-2) + " " +
+                    ("0" + date.getHours()).slice(-2) + ":" +
+                    ("0" + date.getMinutes()).slice(-2) + ":" +
+                    ("0" + date.getSeconds()).slice(-2)
+            });
+        }
     }
 
     const handleSubmit = () => {
-        setEditMode(false);
+        axios.patch(getBaseUrl() + `/films/${film.filmId}`, formDetails)
+            .then(() => {
+                setEditMode(false)
+            })
+            .catch((err) => handleBadFormSubmission(err.response));
+    }
+
+    const handleBadFormSubmission = (response: AxiosResponse) => {
+        setErrorText(response.statusText);
     }
 
     const handleImageUpload = () => {
@@ -90,7 +139,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     }
 
     const handleBadImageSubmission = (response: AxiosResponse) => {
-
+        setErrorText(response.statusText);
     }
 
     return (
@@ -116,7 +165,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                             </div>
                         }
                         {!image &&
-                            <img src={getBaseUrl() + `/films/${film.filmId}/image?` + Date.now()}
+                            <img src={getBaseUrl() + `/films/${film.filmId}/image`}
                                  className='img img-thumbnail'/>}
                         {image && <img src={URL.createObjectURL(image)} className='img img-thumbnail'/>}
                         <div className="mb-3 pt-2 ps-1">
@@ -176,18 +225,21 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                             <div className='col-6'>
                                 <div className="form-group">
                                     <label htmlFor="genre">Genre:</label>
-                                    <Dropdown>
-                                        <DropdownButton title={formDetails.genreId != -1 ? genreTitle : "Select Genre"}>
-                                            {genres.map((genre) => (
-                                                <Dropdown.Item key={'genre ' + genre} onClick={() => {
-                                                    setGenreTitle(genre.name);
-                                                    setFormDetails(prev => ({...prev, genreId: genre.genreId}));
-                                                }}>
-                                                    {genre.name}
-                                                </Dropdown.Item>
-                                            ))}
-                                        </DropdownButton>
-                                    </Dropdown>
+                                    {genreTitle !== "" &&
+                                        <Dropdown>
+                                            <DropdownButton
+                                                title={formDetails.genreId != -1 ? genreTitle : "Select Genre"}>
+                                                {genres.map((genre) => (
+                                                    <Dropdown.Item key={'genre ' + genre} onClick={() => {
+                                                        setGenreTitle(genre.name);
+                                                        setFormDetails(prev => ({...prev, genreId: genre.genreId}));
+                                                    }}>
+                                                        {genre.name}
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </DropdownButton>
+                                        </Dropdown>
+                                    }
                                 </div>
                             </div>
                             <div className='col-6'>

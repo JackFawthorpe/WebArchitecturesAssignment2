@@ -20,7 +20,7 @@ const FilmDetailsPage = () => {
     const [film, setFilm] = useState<FullFilm | null>(null);
     const currentUser = authStore(state => state.currentUser);
     const [inEditMode, setInEditMode] = useState<boolean>(false);
-    const [lastUpdated, setLastUpdated] = useState(Date.now());
+
     const fetchFilmData = async (isSubscribed: boolean) => {
         try {
             const response = await axios.get(getBaseUrl() + `/films/${id}`)

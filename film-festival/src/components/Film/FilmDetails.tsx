@@ -33,7 +33,7 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
                                     <h3>{film.title}</h3>
                                 </div>
                                 <div className='col'>
-                                    <h3 className='float-end'>Rating: {film.rating}/10</h3>
+                                    <h3 className='float-end'>{film.numReviews !== 0 && "Rating: " + film.numReviews + "/10"}</h3>
                                 </div>
                             </div>
                             <div className='row pt-3 border-bottom'>
