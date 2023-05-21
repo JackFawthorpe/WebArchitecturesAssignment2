@@ -60,8 +60,8 @@ const InvolvedFilms = () => {
                     <h2 className='text-center'>Films I've Reviewed</h2>
                 </div>
                 {reviewed.map((film) =>
-                    <div className='pb-2'>
-                        <FilmCard key={film.filmId} {...film}/>
+                    <div key={film.filmId} className='pb-2'>
+                        <FilmCard {...film}/>
                     </div>)}
             </div>
         </div>

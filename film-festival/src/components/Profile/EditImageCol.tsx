@@ -94,19 +94,19 @@ const EditImageCol = () => {
             </div>
             <div className='row pt-2'>
                 {profilePicURL !== defaultImage &&
-                    <div className='col d-flex justify-content-center'>
+                    <div className='col d-flex justify-content-start'>
                         <button className='btn btn-primary' onClick={handleRemoveProfilePic}>
                             Delete Picture
                         </button>
+                        {showImageChangeError &&
+                            <div className='row pt-2'>
+                                <div className="alert alert-danger text-center" role="alert">
+                                    An error occured updating your profile, please try again later
+                                </div>
+                            </div>}
                     </div>
                 }
             </div>
-            {showImageChangeError &&
-                <div className='row pt-2'>
-                    <div className="alert alert-danger text-center" role="alert">
-                        An error occured updating your profile, please try again later
-                    </div>
-                </div>}
         </>
     )
 }

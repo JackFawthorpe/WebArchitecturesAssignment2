@@ -14,14 +14,14 @@ const ViewProfileCard = (props: { setInEditMode: any }) => {
 
     return (
         <div className='container-fluid'>
-            <div className='d-flex'>
-                <div className='flex-shrink-1'>
+            <div className='row'>
+                <div className='col-4'>
                     <img src={getBaseUrl() + "/users/" + currentUser?.id + "/image"}
                          className="rounded img-thumbnail"
                          alt="Your Picture"
                          onError={replaceImage}/>
                 </div>
-                <div className='col-9 ps-4'>
+                <div className='col-8 ps-4'>
                     <h1>{currentUser?.firstName} {currentUser?.lastName}</h1>
                     <h3>{currentUser?.email}</h3>
                 </div>

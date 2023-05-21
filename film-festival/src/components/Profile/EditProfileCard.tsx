@@ -2,6 +2,7 @@
 import defaultImage from "../../resources/defaultUser.png";
 import EditImageCol from "./EditImageCol";
 import {authStore} from "../../store";
+import EditDetailsForm from "./EditDetailsForm";
 
 const EditProfileCard = (props: { setInEditMode: any }) => {
 
@@ -16,13 +17,8 @@ const EditProfileCard = (props: { setInEditMode: any }) => {
                 <div className='col-8 ps-4'>
                     <h1>{currentUser?.firstName} {currentUser?.lastName}</h1>
                     <h3>{currentUser?.email}</h3>
+                    <EditDetailsForm setInEditMode={props.setInEditMode}/>
                 </div>
-            </div>
-            <div className='float-end'>
-                <button className="btn btn-primary" onClick={() => {
-                    props.setInEditMode(false)
-                }}>View
-                </button>
             </div>
         </div>
     )
