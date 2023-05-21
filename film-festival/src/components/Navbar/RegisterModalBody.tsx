@@ -154,17 +154,17 @@ export const RegisterModalBody = forwardRef((props, ref) => {
         setFormDetails({...formDetails, [event.target.name]: event.target.value})
     }
 
-
     const handleImageChange = (e: any) => {
         const file = e.target.files[0];
         const fileType = file.type;
         if (!["image/png", "image/jpeg", "image/gif"].includes(fileType)) {
             setShowImageError(true);
+            setImage(null);
         } else {
             setShowImageError(false);
             setImage(file);
-            setContentType(fileType);
         }
+        setContentType(fileType);
     }
 
     return (
@@ -243,7 +243,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                         Please select a valid image type (.png, .jpeg, .jpg, .gif)
                     </div>}
                 </div>
-                {image && <img src={URL.createObjectURL(image)} alt="Selected profile picture"
+                {image && <img alt="Selected profile picture"
                                className='img img-thumbnail'/>}
             </form>
         </div>

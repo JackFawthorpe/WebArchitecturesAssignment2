@@ -9,6 +9,7 @@ import ProfilePage from "./Pages/ProfilePage";
 
 // @ts-ignore
 import defaultImage from "./resources/defaultUser.png";
+import FilmCreatePage from "./Pages/FilmCreatePage";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
                 <div>
                     <Routes>
                         <Route path="/" element={<Layout/>}>
+                            <Route path="/film/create" element={<FilmCreatePage/>}/>
                             <Route path="/film/:id" element={<FilmDetailsPage/>}/>
                             <Route path="/" element={<FilmsPage/>}/>
                             <Route path="/profile" element={<ProfilePage/>}/>

@@ -30,7 +30,6 @@ export const RightNav = () => {
                 console.log("Error logging out");
             }
         }
-
         postLogout();
     }
 
@@ -49,6 +48,11 @@ export const RightNav = () => {
         return (
             <>
                 <button className="btn btn-secondary me-2" onClick={() => {
+                    navigate("/film/create")
+                }}>
+                    Create a Film
+                </button>
+                <button className="btn btn-secondary me-2" onClick={() => {
                     navigate("/profile")
                 }}>
                     Profile
@@ -64,7 +68,7 @@ export const RightNav = () => {
         <div className="me-2">
             <button className="btn btn-secondary me-2" onClick={() => {
                 navigate("/")
-            }}>Films
+            }}>View Films
             </button>
             {currentUser === null ? loggedOutAuthBar() : loggedInAuthBar()}
         </div>
