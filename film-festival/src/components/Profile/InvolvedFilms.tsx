@@ -53,7 +53,10 @@ const InvolvedFilms = () => {
                 <div className='card p-3 mb-2'>
                     <h2 className='text-center'>Films I've Directed</h2>
                 </div>
-                {directed.map((film) => <FilmCard key={film.filmId} {...film}/>)}
+                {directed.map((film) =>
+                    <div key={film.filmId} className='pb-2'>
+                        <FilmCard key={film.filmId} {...film}/>
+                    </div>)}
             </div>
             <div className='col-6 mt-3'>
                 <div className='card p-3 mb-2'>

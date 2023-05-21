@@ -90,8 +90,8 @@ const FilmDetailsPage = () => {
                             <ReviewsCard film={film} updateFilm={fetchFilmData}/>
                         </div>
                         <div className='col-4 d-flex flex-column'>
-                            {currentUser?.id != film.directorId &&
-                                <DirectorFilmCard/>}
+                            {currentUser?.id == film.directorId &&
+                                <DirectorFilmCard film={film}/>}
                             <SuggestedFilms genreId={film.genreId} directorId={film.directorId}/>
                         </div>
                     </div>
