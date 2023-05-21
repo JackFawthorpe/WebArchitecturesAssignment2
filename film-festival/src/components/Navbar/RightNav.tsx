@@ -24,6 +24,7 @@ export const RightNav = () => {
         const postLogout = async () => {
             const response = await axios.post(getBaseUrl() + "/users/logout");
             if (response.status === 200) {
+                debugger
                 authStore.getState().logout();
                 delete axios.defaults.headers.common["x-auth-token"];
             } else {

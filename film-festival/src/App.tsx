@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import "./resources/scss/main.css";
 import "bootstrap/dist/js/bootstrap.bundle";
@@ -10,12 +10,18 @@ import ProfilePage from "./Pages/ProfilePage";
 // @ts-ignore
 import defaultImage from "./resources/defaultUser.png";
 import FilmCreatePage from "./Pages/FilmCreatePage";
+import {authStore} from "./store";
+import axios from "axios";
 
 function App() {
 
-    const replaceImage = (error: any) => {
-        error.target.src = defaultImage;
-    }
+    const currentUser = authStore(state => state.currentUser);
+
+    useEffect(() => {
+        if (currentUser != null) {
+            axios.defaults.headers.common['X-Authorization'] = currentUser.token;
+        }
+    }, [])
 
     return (
         <div className="App">
