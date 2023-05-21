@@ -4,9 +4,10 @@ import {useNavigate} from "react-router-dom";
 
 type DirectorCardParams = {
     film: FullFilm,
+    setEditMode: any
 }
 
-const DirectorFilmCard = ({film}: DirectorCardParams) => {
+const DirectorFilmCard = ({film, setEditMode}: DirectorCardParams) => {
 
     const navigate = useNavigate();
 
@@ -35,7 +36,9 @@ const DirectorFilmCard = ({film}: DirectorCardParams) => {
                 <div className='row py-1'>
                     <div className='col-1'>
                         <button
-                            className={`btn btn-primary ${film.numReviews != 0 ? "disabled" : ""}`}>Edit
+                            className={`btn btn-primary ${film.numReviews != 0 ? "disabled" : ""}`} onClick={() => {
+                            setEditMode(true)
+                        }}>Edit
                         </button>
                     </div>
                     <div className='col-2'>

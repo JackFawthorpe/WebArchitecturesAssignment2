@@ -8,6 +8,7 @@ import SuggestedFilms from "../components/Film/SuggestedFilms";
 import ReviewsCard from "../components/Film/ReviewsCard";
 import {authStore} from "../store";
 import DirectorFilmCard from "../components/Film/DirectorFilmCard";
+import FilmEditCard from "../components/Film/FilmEditCard";
 
 
 const FilmDetailsPage = () => {
@@ -18,7 +19,8 @@ const FilmDetailsPage = () => {
     const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
     const [film, setFilm] = useState<FullFilm | null>(null);
     const currentUser = authStore(state => state.currentUser);
-
+    const [inEditMode, setInEditMode] = useState<boolean>(false);
+    const [lastUpdated, setLastUpdated] = useState(Date.now());
     const fetchFilmData = async (isSubscribed: boolean) => {
         try {
             const response = await axios.get(getBaseUrl() + `/films/${id}`)
@@ -86,12 +88,16 @@ const FilmDetailsPage = () => {
                 <div className='container-fluid bg-secondary'>
                     <div className='row'>
                         <div className='col-md-8 p-2 d-flex flex-column'>
-                            <FilmDetails film={film} genre={genre !== null ? genre : "Unknown"} director={director}/>
+                            {inEditMode
+                                ? <FilmEditCard film={film} setEditMode={setInEditMode}/>
+                                : <FilmDetails film={film}
+                                               genre={genre !== null ? genre : "Unknown"}
+                                               director={director}/>}
                             <ReviewsCard film={film} updateFilm={fetchFilmData}/>
                         </div>
                         <div className='col-4 d-flex flex-column'>
                             {currentUser?.id == film.directorId &&
-                                <DirectorFilmCard film={film}/>}
+                                <DirectorFilmCard film={film} setEditMode={setInEditMode}/>}
                             <SuggestedFilms genreId={film.genreId} directorId={film.directorId}/>
                         </div>
                     </div>

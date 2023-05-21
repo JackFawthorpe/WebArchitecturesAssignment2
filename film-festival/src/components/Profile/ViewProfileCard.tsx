@@ -16,7 +16,7 @@ const ViewProfileCard = (props: { setInEditMode: any }) => {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='col-4'>
-                    <img src={getBaseUrl() + "/users/" + currentUser?.id + "/image"}
+                    <img src={getBaseUrl() + "/users/" + currentUser?.id + "/image?" + Date.now()}
                          className="rounded img-thumbnail"
                          alt="Your Picture"
                          onError={replaceImage}/>

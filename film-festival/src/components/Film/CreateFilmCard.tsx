@@ -21,8 +21,6 @@ const CreateFilmCard = () => {
         filmCreated,
         filmId
     }, setFilmCreated] = useState<{ filmCreated: boolean, filmId: number | null }>({filmCreated: false, filmId: null});
-    const ageRatings = ['G', 'PG', 'M', 'R13', 'R16', 'R18', 'TBC']
-    const [genres, setGenres] = useState<Genre[]>([]);
     const [errorText, setErrorText] = useState<string>("");
     const [formDetails, setFormDetails] = useState<FormDetails>({
         title: "",
@@ -30,6 +28,8 @@ const CreateFilmCard = () => {
         genreId: -1
     });
 
+    const ageRatings = ['G', 'PG', 'M', 'R13', 'R16', 'R18', 'TBC']
+    const [genres, setGenres] = useState<Genre[]>([]);
     useEffect(() => {
         fetchGenres();
     }, [])

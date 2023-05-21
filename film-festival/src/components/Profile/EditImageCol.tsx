@@ -9,7 +9,7 @@ const EditImageCol = () => {
 
 
     const currentUser = authStore(state => state.currentUser);
-    const [profilePicURL, setProfilePicURL] = useState<string>(getBaseUrl() + "/users/" + currentUser?.id + "/image");
+    const [profilePicURL, setProfilePicURL] = useState<string>(getBaseUrl() + "/users/" + currentUser?.id + "/image?" + Date.now());
     const [uploadImage, setUploadImage] = useState(null);
     const [contentType, setContentType] = useState<string>("");
     const [showImageTypeError, setShowImageTypeError] = useState<boolean>(false);

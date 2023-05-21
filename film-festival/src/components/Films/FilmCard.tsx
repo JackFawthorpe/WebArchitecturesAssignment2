@@ -63,7 +63,7 @@ const FilmCard = (film: Film) => {
                     <div className={'card-body'}>
                         <div className='row'>
                             <div className='col-md-6'>
-                                <img src={getBaseUrl() + "/films/" + film.filmId + "/image"}
+                                <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
                                      className="img-fluid pb-2"
                                      alt="Missing Film Image"/>
                             </div>
@@ -81,7 +81,7 @@ const FilmCard = (film: Film) => {
                                         <h4 className='card-text'>Director: {director.firstName} {director.lastName}</h4>
                                     </div>
                                     <div className='col-5'>
-                                        <img src={getBaseUrl() + "/users/" + film.directorId + "/image"}
+                                        <img src={getBaseUrl() + "/users/" + film.directorId + "/image?" + Date.now()}
                                              className="rounded float-end img-thumbnail director-image text-center"
                                              alt="Director's Picture"
                                              onError={replaceImage}/>

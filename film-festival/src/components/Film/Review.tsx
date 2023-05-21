@@ -14,7 +14,7 @@ const Review = (review: Review) => {
             <div className='col border-bottom pt-2 container-fluid'>
                 <div className='row py-2'>
                     <div className='col-1'>
-                        <img src={getBaseUrl() + "/users/" + review.reviewerId + "/image"}
+                        <img src={getBaseUrl() + "/users/" + review.reviewerId + "/image?" + Date.now()}
                              className="rounded float-end img-thumbnail director-image text-center"
                              alt="Director's Picture"
                              onError={replaceImage}/>
