@@ -24,13 +24,11 @@ const ViewProfileCard = (props: { setInEditMode: any }) => {
                 <div className='col-8 ps-4'>
                     <h1>{currentUser?.firstName} {currentUser?.lastName}</h1>
                     <h3>{currentUser?.email}</h3>
+                    <button className="btn btn-primary" onClick={() => {
+                        props.setInEditMode(true)
+                    }}>Edit Profile
+                    </button>
                 </div>
-            </div>
-            <div className='float-end'>
-                <button className="btn btn-primary" onClick={() => {
-                    props.setInEditMode(true)
-                }}>Edit
-                </button>
             </div>
         </div>
     )
