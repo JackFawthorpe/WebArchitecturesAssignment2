@@ -6,7 +6,7 @@ type PaginationProps = {
     changeFilmQuery: (action: SetStateAction<FilmSearchQuery>) => void;
     filmCount: number
 }
-const FilmPagination = (props: PaginationProps) => {
+const FilmPaginationCard = (props: PaginationProps) => {
 
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [showNext, setShowNext] = useState<boolean>(true);
@@ -17,7 +17,7 @@ const FilmPagination = (props: PaginationProps) => {
     useEffect(() => {
         setShowNext(currentIndex + 8 < props.filmCount);
         setShowPrev(currentIndex !== 0);
-        setShowLast(currentIndex !== props.filmCount - props.filmCount % 8);
+        setShowLast(currentIndex + 8 < props.filmCount);
         setShowFirst(currentIndex !== 0);
     }, [currentIndex, props.filmCount])
 
@@ -40,9 +40,9 @@ const FilmPagination = (props: PaginationProps) => {
     const handleLast = () => {
         props.changeFilmQuery((prev: FilmSearchQuery) => ({
             ...prev,
-            startIndex: props.filmCount - props.filmCount % 8
+            startIndex: props.filmCount - (props.filmCount % 8 === 0 ? 8 : props.filmCount % 8)
         }))
-        setCurrentIndex(props.filmCount - props.filmCount % 8);
+        setCurrentIndex(props.filmCount - (props.filmCount % 8 === 0 ? 8 : props.filmCount % 8));
     }
 
     const handleFirst = () => {
@@ -97,4 +97,4 @@ const FilmPagination = (props: PaginationProps) => {
     )
 }
 
-export default FilmPagination
+export default FilmPaginationCard

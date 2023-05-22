@@ -11,8 +11,6 @@ type FilmNavProps = {
 
 const FilmFiltersCard = (props: FilmNavProps) => {
 
-    const isUserLoggedIn = true;
-
     const [nonSelectedGenres, setNonSelectedGenres] = useState<Genre[]>([{genreId: -1, name: "Loading Genres"}]);
     const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
 
@@ -73,58 +71,60 @@ const FilmFiltersCard = (props: FilmNavProps) => {
     }
 
     return (
-        <div className='card'>
-            <div className='row p-2'>
+        <div className='card p-2'>
+            <div className='row'>
                 <h3>Filters</h3>
             </div>
-            <div className='form-group'>
-                <div className='container my-2'>
-                    <div className='row'>
-                        <div className='col-sm-6 pb-2'>
-                            <label className='form-label h3' htmlFor='Genre'>
-                                Genre
-                            </label>
-                            <Dropdown>
-                                <DropdownButton title="Add a genre filter">
-                                    {nonSelectedGenres.map((genre) => (
-                                        <Dropdown.Item key={'genre ' + genre.genreId}
-                                                       onClick={() => addGenre(genre)}>{genre.name}</Dropdown.Item>
-                                    ))}
-                                </DropdownButton>
-                            </Dropdown>
+            <div className='row'>
+                <div className='form-group'>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-lg-6 pb-2'>
+                                <label className='form-label h4' htmlFor='Genre'>
+                                    Genre
+                                </label>
+                                <Dropdown>
+                                    <DropdownButton title="Add a genre filter">
+                                        {nonSelectedGenres.map((genre) => (
+                                            <Dropdown.Item key={'genre ' + genre.genreId}
+                                                           onClick={() => addGenre(genre)}>{genre.name}</Dropdown.Item>
+                                        ))}
+                                    </DropdownButton>
+                                </Dropdown>
+                            </div>
+                            <div className='col'>
+                                <label className='form-label h4' htmlFor='Age Rating'>
+                                    Age Rating
+                                </label>
+                                <Dropdown>
+                                    <DropdownButton title="Add a Age Rating filter">
+                                        {nonSelectedAgeRatings.map((rating) => (
+                                            <Dropdown.Item key={'age rating ' + rating}
+                                                           onClick={() => addAgeRating(rating)}>{rating}</Dropdown.Item>
+                                        ))}
+                                    </DropdownButton>
+                                </Dropdown>
+                            </div>
                         </div>
-                        <div className='col-6'>
-                            <label className='form-label  h3' htmlFor='Age Rating'>
-                                Age Rating
-                            </label>
-                            <Dropdown>
-                                <DropdownButton title="Add a Age Rating filter">
-                                    {nonSelectedAgeRatings.map((rating) => (
-                                        <Dropdown.Item key={'age rating ' + rating}
-                                                       onClick={() => addAgeRating(rating)}>{rating}</Dropdown.Item>
-                                    ))}
-                                </DropdownButton>
-                            </Dropdown>
-                        </div>
-                    </div>
-                    {(selectedGenres.length !== 0 || selectedAgeRatings.length !== 0) &&
-                        <div className={'row'}>
-                            {selectedGenres.map(genre =>
-                                <div className={'col py-1'}
-                                     key={'genre ' + genre.genreId}>
+                        {(selectedGenres.length !== 0 || selectedAgeRatings.length !== 0) &&
+                            <div className={'row'}>
+                                {selectedGenres.map(genre =>
+                                    <div className={'col py-1'}
+                                         key={'genre ' + genre.genreId}>
                                     <span className={'badge badge-lg bg-primary text-black'}
                                           onClick={() => removeGenre(genre)}>{genre.name} X</span>
-                                </div>
-                            )}
-                            {selectedAgeRatings.map(rating =>
-                                <div className={'col py-1'}
-                                     key={'age rating ' + rating}>
+                                    </div>
+                                )}
+                                {selectedAgeRatings.map(rating =>
+                                    <div className={'col py-1'}
+                                         key={'age rating ' + rating}>
                                     <span className={'badge badge-lg bg-primary text-black'}
                                           onClick={() => removeAgeRating(rating)}>{rating} Rated X</span>
-                                </div>
-                            )}
-                        </div>
-                    }
+                                    </div>
+                                )}
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

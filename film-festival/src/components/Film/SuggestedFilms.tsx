@@ -64,11 +64,17 @@ const SuggestedFilms = ({genreId, directorId}: SuggestedFilmsParams) => {
             <div className='card p-2'>
                 <h3>Suggested Films</h3>
             </div>
-            {suggestedFilms.map((film: Film) =>
-                <div key={film.filmId} className='col py-2'>
-                    <FilmCard {...film}/>
+            {suggestedFilms.length === 0 &&
+                <div className={'card my-2 p-2'}>
+                    <h5>No suggestions found</h5>
                 </div>
-            )}
+            }
+            {suggestedFilms.length !== 0 &&
+                suggestedFilms.map((film: Film) =>
+                        <div key={film.filmId} className='col py-2'>
+                            <FilmCard {...film}/>
+                        </div>
+                    )}
         </div>
     )
 }

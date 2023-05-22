@@ -51,8 +51,7 @@ const FilmSortCard = (props: FilmNavProps) => {
                 <h3>Order By</h3>
             </div>
             <div className='container my-2'>
-                <div className='row p-0'>
-
+                <div className='row'>
                     <div className='col'>
                         <Dropdown>
                             <DropdownButton id="DropdownButton" title={currentDropTitle}>

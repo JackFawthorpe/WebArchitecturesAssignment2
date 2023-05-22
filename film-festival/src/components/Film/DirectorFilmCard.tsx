@@ -28,24 +28,26 @@ const DirectorFilmCard = ({film, setEditMode}: DirectorCardParams) => {
     return (
         <div className='container-fluid'>
             <div className='card mt-2 p-2'>
-                <div className='row pt-1 '>
-                    <div className='col'>
+                <div className='row pt-1 ps-2'>
+                    <div className='col-auto'>
                         <h3>Director Settings</h3>
                     </div>
                 </div>
-                <div className='row py-1'>
-                    <div className='col-1'>
-                        <button
-                            className={`btn btn-primary ${film.numReviews != 0 ? "disabled" : ""}`} onClick={() => {
-                            setEditMode(true)
-                        }}>Edit
-                        </button>
-                    </div>
-                    <div className='col-2'>
-                        <button className='btn btn-primary' onClick={handleDelete}>Delete</button>
+                <div className={'container'}>
+                    <div className={'row d-flex'}>
+                        <div className={'col-auto'}>
+                            <button
+                                className={`btn btn-primary ${film.numReviews != 0 ? "disabled" : ""}`} onClick={() => {
+                                setEditMode(true)
+                            }}>Edit
+                            </button>
+                        </div>
+                        <div className={'col-auto'}>
+                            <button className='btn btn-primary' onClick={handleDelete}>Delete</button>
+                        </div>
                     </div>
                 </div>
-                <div className='row pt-1 ps-1'>
+                <div className='row pt-3 ps-2'>
                     {film.numReviews === 0
                         ? <h5>Note: You will no longer be able to edit a film once a review has been placed</h5>
                         : <h5>You can no longer edi this film as it has been reviewed</h5>

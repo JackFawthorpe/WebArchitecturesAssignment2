@@ -1,7 +1,7 @@
 import React, {SetStateAction} from "react";
 import FilmFiltersCard from "./FilmFiltersCard";
 import FilmSortCard from "./FilmSortCard";
-import FilmPaginationCard from "./FilmPagination";
+import FilmPaginationCard from "./FilmPaginationCard";
 import FilmSearchQuery from "../../types/FilmSearch";
 import FilmSearchCard from "./FilmSearchCard";
 
