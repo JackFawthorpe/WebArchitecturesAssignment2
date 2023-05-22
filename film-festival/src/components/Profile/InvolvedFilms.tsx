@@ -47,7 +47,7 @@ const InvolvedFilms = () => {
 
     return (
         <div className='row justify-content-center'>
-            <div className='col-6 mt-3'>
+            <div className='col-lg-6 mt-3'>
                 <div className='card p-3 mb-2'>
                     <h2 className='text-center'>Films I've Directed</h2>
                 </div>
