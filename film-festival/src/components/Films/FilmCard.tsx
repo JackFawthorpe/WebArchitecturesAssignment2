@@ -5,14 +5,12 @@ import {getBaseUrl} from "../../config/BaseUrl";
 import Genre from "../../types/Genre";
 
 // @ts-ignore
-import defaultImage from "../../resources/defaultUser.png";
-import {Link, useNavigate} from "react-router-dom";
+import defaultDirector from "../../resources/defaultUser.png";
+// @ts-ignore
+import defaultFilm from "../../resources/defaultFilm.jpg";
+import {Link} from "react-router-dom";
 
 const FilmCard = (film: Film) => {
-
-    const replaceImage = (error: any) => {
-        error.target.src = defaultImage;
-    }
 
     const [loadedDirector, setLoadedDirector] = useState<boolean>(false);
     const [director, setDirector] = useState<{ firstName: string, lastName: string }>({firstName: "", lastName: ""});
@@ -53,8 +51,14 @@ const FilmCard = (film: Film) => {
         }
     }, [])
 
-    const navigate = useNavigate();
 
+    const replaceDirectorImage = (error: any) => {
+        error.target.src = defaultDirector;
+    }
+
+    const replaceFilmImage = (error: any) => {
+        error.target.src = defaultFilm;
+    }
 
     return (
         <>
@@ -65,7 +69,9 @@ const FilmCard = (film: Film) => {
                             <div className='col-md-6'>
                                 <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
                                      className="img-fluid pb-2"
-                                     alt="Missing Film Image"/>
+                                     alt="Film Snapshot"
+                                    onError={replaceFilmImage}
+                                />
                             </div>
                             <div className='col'>
                                 <Link to={`/film/${film.filmId}`}>
@@ -84,7 +90,7 @@ const FilmCard = (film: Film) => {
                                         <img src={getBaseUrl() + "/users/" + film.directorId + "/image?" + Date.now()}
                                              className="rounded float-end img-thumbnail director-image text-center"
                                              alt="Director's Picture"
-                                             onError={replaceImage}/>
+                                             onError={replaceDirectorImage}/>
                                     </div>
                                 </div>
                             </div>
