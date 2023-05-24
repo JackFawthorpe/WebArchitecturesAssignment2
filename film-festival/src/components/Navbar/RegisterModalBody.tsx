@@ -88,7 +88,7 @@ export const RegisterModalBody = forwardRef((props, ref) => {
 
     const handleSuccessfulImageUpload = (closeModal: any) => {
         closeModal();
-        navigate("/profile");
+        navigate("/films");
     }
 
     const clearForm = () => {
@@ -243,8 +243,10 @@ export const RegisterModalBody = forwardRef((props, ref) => {
                         Please select a valid image type (.png, .jpeg, .jpg, .gif)
                     </div>}
                 </div>
-                {image && <img alt="Selected profile picture"
-                               className='img img-thumbnail'/>}
+                <div className={'d-flex justify-content-center'}>
+                    {image && <img alt="Selected profile picture" src={URL.createObjectURL(image)}
+                                   className='img img-thumbnail'/>}
+                </div>
             </form>
         </div>
     )

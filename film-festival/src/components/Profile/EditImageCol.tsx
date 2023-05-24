@@ -69,10 +69,16 @@ const EditImageCol = () => {
     return (
         <>
             <div className='row'>
-                <img src={profilePicURL}
-                     className="rounded img-thumbnail"
-                     alt="Your Picture"
-                     onError={setImageToDefault}/>
+                {uploadImage
+                    ? <img src={URL.createObjectURL(uploadImage)}
+                           className="rounded img-thumbnail"
+                           alt="Your Picture"
+                           onError={setImageToDefault}/>
+                    : <img src={profilePicURL}
+                                      className="rounded img-thumbnail"
+                                      alt="Your Picture"
+                                      onError={setImageToDefault}/>
+                }
             </div>
             <div className='row pt-2'>
                 <div className='col-10'>
