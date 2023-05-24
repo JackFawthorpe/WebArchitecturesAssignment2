@@ -65,8 +65,8 @@ const FilmCard = (film: Film) => {
             {loadedDirector && genre !== null &&
                 <div className={'card'}>
                     <div className={'card-body'}>
-                        <div className='row'>
-                            <div className='col-md-6'>
+                        <div className='row justify-content-center'>
+                            <div className='col-md-6 d-flex align-items-center'>
                                 <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
                                      className="img-fluid pb-2"
                                      alt="Film Snapshot"

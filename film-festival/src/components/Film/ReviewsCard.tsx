@@ -80,7 +80,7 @@ const ReviewsCard = ({film, updateFilm}: ReviewsProps) => {
     const getNonReleasedMessage = () => {
         return (
             <div className='card mt-3'>
-                <div className='container-fluid text-center m-4'>
+                <div className='container-fluid text-center my-3'>
                     <h3>No reviews available as the movie has not been released</h3>
                 </div>
             </div>

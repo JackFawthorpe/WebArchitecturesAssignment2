@@ -22,7 +22,7 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
             {film !== null &&
                 <div className='card p-3'>
                     <div className='row'>
-                        <div className='col-md-4 d-flex justify-content-center'>
+                        <div className='col-lg-4 pb-3 d-flex justify-content-center'>
                             <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
                                  className="img-thumbnail"
                                  alt="Film Image"/>
