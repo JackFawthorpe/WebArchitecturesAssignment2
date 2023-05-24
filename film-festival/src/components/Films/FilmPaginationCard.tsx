@@ -6,7 +6,7 @@ type PaginationProps = {
     changeFilmQuery: (action: SetStateAction<FilmSearchQuery>) => void;
     filmCount: number
 }
-const FilmPaginationCard = (props: PaginationProps) => {
+const FilmPaginationCard = ({changeFilmQuery, filmCount}: PaginationProps) => {
 
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [showNext, setShowNext] = useState<boolean>(true);
@@ -15,14 +15,23 @@ const FilmPaginationCard = (props: PaginationProps) => {
     const [showFirst, setShowFirst] = useState<boolean>(true);
 
     useEffect(() => {
-        setShowNext(currentIndex + 8 < props.filmCount);
+
+        if (currentIndex > filmCount) {
+            setCurrentIndex(0);
+            changeFilmQuery((prev: FilmSearchQuery) => ({
+                ...prev,
+                startIndex: 0
+            }))
+        }
+
+        setShowNext(currentIndex + 8 < filmCount);
         setShowPrev(currentIndex !== 0);
-        setShowLast(currentIndex + 8 < props.filmCount);
+        setShowLast(currentIndex + 8 < filmCount);
         setShowFirst(currentIndex !== 0);
-    }, [currentIndex, props.filmCount])
+    }, [currentIndex, filmCount])
 
     const handleNext = () => {
-        props.changeFilmQuery((prev: FilmSearchQuery) => ({
+        changeFilmQuery((prev: FilmSearchQuery) => ({
             ...prev,
             startIndex: prev.startIndex + prev.count
         }))
@@ -30,7 +39,7 @@ const FilmPaginationCard = (props: PaginationProps) => {
     };
 
     const handlePrev = () => {
-        props.changeFilmQuery((prev: FilmSearchQuery) => ({
+        changeFilmQuery((prev: FilmSearchQuery) => ({
             ...prev,
             startIndex: prev.startIndex - prev.count
         }))
@@ -38,15 +47,15 @@ const FilmPaginationCard = (props: PaginationProps) => {
     };
 
     const handleLast = () => {
-        props.changeFilmQuery((prev: FilmSearchQuery) => ({
+        changeFilmQuery((prev: FilmSearchQuery) => ({
             ...prev,
-            startIndex: props.filmCount - (props.filmCount % 8 === 0 ? 8 : props.filmCount % 8)
+            startIndex: filmCount - (filmCount % 8 === 0 ? 8 : filmCount % 8)
         }))
-        setCurrentIndex(props.filmCount - (props.filmCount % 8 === 0 ? 8 : props.filmCount % 8));
+        setCurrentIndex(filmCount - (filmCount % 8 === 0 ? 8 : filmCount % 8));
     }
 
     const handleFirst = () => {
-        props.changeFilmQuery((prev: FilmSearchQuery) => ({
+        changeFilmQuery((prev: FilmSearchQuery) => ({
             ...prev,
             startIndex: 0
         }))
