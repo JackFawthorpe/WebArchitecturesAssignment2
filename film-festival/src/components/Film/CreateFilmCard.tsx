@@ -116,6 +116,9 @@ const CreateFilmCard = () => {
             case "Cannot release a film in the past":
                 setErrorText("The films release date cannot be in the past");
                 break;
+            case "Bad Request: data/runtime must be >= 1":
+                setErrorText("A film must be atleast 1 minute long");
+                break;
             default:
                 setErrorText("An error occurred submitting your request please try again later");
         }
