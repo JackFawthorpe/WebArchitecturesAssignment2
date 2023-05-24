@@ -148,6 +148,9 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
             case "Bad Request: data/runtime must be >= 1":
                 setErrorText("A film must be atleast 1 minute long");
                 break;
+            case "Cannot change the release date of a film already released.":
+                setErrorText("You cannot update the films release date after the film has been released")
+                break;
             default:
                 setErrorText("An error has occurred, please try again later");
         }
@@ -292,9 +295,13 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='row pt-1'>
-                            <div className='col'>
+                        <div className='row pt-1 d-flex'>
+                            <div className='col-auto'>
                                 <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Details
+                                </button>
+                            </div>
+                            <div className='col'>
+                                <button className="btn btn-primary" onClick={() => setEditMode(false)}>Cancel
                                 </button>
                             </div>
                         </div>
