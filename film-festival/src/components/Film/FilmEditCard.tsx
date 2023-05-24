@@ -1,5 +1,5 @@
 import {Dropdown, DropdownButton} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Genre from "../../types/Genre";
 import axios, {AxiosResponse} from "axios";
 import {getBaseUrl} from "../../config/BaseUrl";
@@ -30,6 +30,19 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     const [showImageSuccessText, setShowImageSuccessText] = useState<boolean>(false);
     const [genreTitle, setGenreTitle] = useState<string>("");
     const initTime = Date.now();
+    const imageSuccessTimerRef = useRef<any>(-1);
+
+    useEffect(() => {
+        if (showImageSuccessText) {
+            imageSuccessTimerRef.current = setTimeout(() => {
+                setShowImageSuccessText(false);
+            }, 5000);
+
+            return () => {
+                clearTimeout(imageSuccessTimerRef.current)
+            }
+        }
+    }, [showImageSuccessText])
 
     useEffect(() => {
         const date = new Date(formDetails.releaseDate ?? "");
@@ -132,6 +145,9 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
             case "Cannot release a film in the past.":
                 setErrorText("You cannot set the release date to the past");
                 break;
+            case "Bad Request: data/runtime must be >= 1":
+                setErrorText("A film must be atleast 1 minute long");
+                break;
             default:
                 setErrorText("An error has occurred, please try again later");
         }
@@ -165,7 +181,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                             </div>
                         </div>
                     }
-                    <div className='col-4'>
+                    <div className='col-lg-4'>
                         {showImageSuccessText &&
                             <div className='row pt-2'>
                                 <div className="alert alert-warning text-center" role="alert">
@@ -196,7 +212,7 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
                                     </div>}
                                 </div>
                                 <div className='col-2'>
-                                    <button className='btn btn-primary' disabled={showImageError}
+                                    <button className='btn btn-primary' disabled={showImageError || !image}
                                             onClick={handleImageUpload}>Upload
                                     </button>
                                 </div>
