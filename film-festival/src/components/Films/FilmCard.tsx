@@ -83,12 +83,12 @@ const FilmCard = (film: Film) => {
                                 <h4 className='card-text'>Genre: {genre}</h4>
                                 <h4 className='card-text'>Rating: {film.rating}</h4>
                                 <div className='row pt-5'>
-                                    <div className='col-xl-7'>
+                                    <div className='col'>
                                         <h4 className='card-text'>Director: {director.firstName} {director.lastName}</h4>
                                     </div>
-                                    <div className='col-5'>
+                                    <div className='col-auto'>
                                         <img src={getBaseUrl() + "/users/" + film.directorId + "/image?" + Date.now()}
-                                             className="rounded float-end img-thumbnail director-image text-center"
+                                             className="rounded float-end img-thumbnail director-image"
                                              alt="Director's Picture"
                                              onError={replaceDirectorImage}/>
                                     </div>
