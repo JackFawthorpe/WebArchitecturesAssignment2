@@ -4,6 +4,9 @@ import {format} from "date-fns";
 // @ts-ignore
 import defaultImage from "../../resources/defaultUser.png";
 
+// @ts-ignore
+import defaultFilm from "../../resources/defaultFilm.jpg";
+
 type FilmDetailParams = {
     genre: string,
     film: FullFilm,
@@ -16,6 +19,9 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
         error.target.src = defaultImage;
     }
 
+    const replaceFilmImage = (error: any) => {
+        error.target.src = defaultFilm;
+    }
 
     return (
         <>
@@ -24,6 +30,7 @@ const FilmDetails = ({genre, film, director}: FilmDetailParams) => {
                     <div className='row'>
                         <div className='col-lg-4 pb-3 d-flex justify-content-center'>
                             <img src={getBaseUrl() + "/films/" + film.filmId + "/image?" + Date.now()}
+                                 onError={replaceFilmImage}
                                  className="img-thumbnail"
                                  alt="Film Image"/>
                         </div>
