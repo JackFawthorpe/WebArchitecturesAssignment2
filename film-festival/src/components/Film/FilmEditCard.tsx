@@ -124,7 +124,20 @@ const FilmEditCard = ({film, setEditMode}: FilmEditProps) => {
     }
 
     const handleSubmit = () => {
-        axios.patch(getBaseUrl() + `/films/${film.filmId}`, formDetails)
+        const form = JSON.parse(JSON.stringify(formDetails));
+        const initialFilmDate = new Date(film.releaseDate);
+        const filmDateString = initialFilmDate.getFullYear() + "-" +
+            ("0" + (initialFilmDate.getMonth() + 1)).slice(-2) + "-" +
+            ("0" + initialFilmDate.getDate()).slice(-2) + " " +
+            ("0" + initialFilmDate.getHours()).slice(-2) + ":" +
+            ("0" + initialFilmDate.getMinutes()).slice(-2) + ":" +
+            ("0" + initialFilmDate.getSeconds()).slice(-2);
+
+        if (form.releaseDate === filmDateString) {
+            delete form.releaseDate;
+        }
+
+        axios.patch(getBaseUrl() + `/films/${film.filmId}`, form)
             .then(() => {
                 setEditMode(false)
             })
